@@ -1,5 +1,6 @@
 # RubixCMS
 A free CMS project created by two French people
+official discord server: [here](https://discord.gg/JWZFuDtNtp)
 
 ## Todo List - RubixCMS
 
@@ -75,5 +76,3 @@ A free CMS project created by two French people
 - [ ] Integration of a user feedback system
 - [ ] Referral system to encourage new users to sign up
 - [ ] Detailed permissions management for users
-
-official discord server: [here](https://discord.gg/JWZFuDtNtp)
