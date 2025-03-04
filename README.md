@@ -1,65 +1,78 @@
 # RubixCMS
 A free CMS project created by two French people
-
-## Todo List
-Voici une version agrandie de la todo list pour **RubixCMS** avec des ajouts possibles :
+official discord server: [here](https://discord.gg/JWZFuDtNtp)
 
 ## Todo List - RubixCMS
 
-### Fonctionnalités de base
-- [x] Créer un système de comptes
-- [ ] Créer le FrontEnd (Dashboard client, Dashboard admin)
-  - [ ] Page d'accueil utilisateur
-  - [ ] Interface de gestion des services
-  - [ ] Interface de gestion des utilisateurs
-- [ ] Créer le BackEnd
-  - [ ] Gestion des bases de données
-  - [ ] API RESTful
-  - [ ] Intégration du système de notifications
-- [ ] Ajouter l'API Pterodactyl
-  - [ ] Creation automatique de serveur lors du payement
-- [ ] Intégrer le système de paiement PayPal
-  - [ ] Gestion des abonnements PayPal
-  - [ ] Historique des paiements
-  - [ ] Webhooks PayPal pour mise à jour automatique des paiements
-- [ ] Intégrations Stripe
-  - [ ] Configuration des paiements
-  - [ ] Gestion des cartes bancaires et méthodes de paiement
-- [ ] Ajouter une fonctionnalité de balance utilisateur
-  - [ ] Dépôts et retraits
-  - [ ] Suivi des transactions
-  - [ ] Notifications de solde
-- [ ] Modification du profil utilisateur
-  - [ ] Ajouter photo de profil
-  - [ ] Modifier l'adresse email
-  - [ ] Ajouter des informations personnelles
-- [ ] Système Anti-VPN
-  - [ ] Vérification de l'adresse IP
-  - [ ] Protection contre les utilisateurs anonymes
-  - [ ] Liste noire des VPN connus
-- [ ] Système Anti-double compte
+### Basic features
+- [x] Create an account system
+- [ ] Create FrontEnd (Customer Dashboard, Admin Dashboard)
+  - [ ] User home page
+  - [ ] Service management interface
+  - [ ] User management interface
+  - [x] Connection interface
+  - [x] Account creation interface
+  - [ ] Admin interface
+- [ ] Create BackEnd
+  - [ ] Database management
+  - [ ] RESTful API
+  - [ ] Notification system integration
+- [ ] Add Pterodactyl API
+  - [ ] Automatic server creation on payment
+  - [ ] Automatic server suspension on service expiry
+  - [ ] Server supressions after 1 week of suspended service
+- [ ] Integrate the PayPal payment system
+  - [ ] PayPal subscription management
+  - [ ] Payment history
+  - [ ] PayPal Webhooks for automatic payment updates
+- [ ] Stripe integrations
+  - [ ] Payment configuration
+  - [ ] Management of credit cards and payment methods
+- [ ] Add user scale functionality
+  - [ ] Deposits and withdrawals
+  - [ ] Transaction tracking
+  - [ ] Balance notifications
+- [ ] User profile modification
+  - [ ] Add profile photo
+  - [ ] Modify email address
+  - [ ] Add personal information
+- [ ] Anti-VPN system
+  - [ ] IP address verification
+  - [ ] Protection against anonymous users
+  - [ ] Blacklist of known VPNs
+- [ ] Anti-double-counting system
   - [ ] Surveillance des inscriptions avec des méthodes de vérification supplémentaires
-  - [ ] Vérification via numéro de téléphone ou email unique
-  - [ ] Outils d'audit des comptes suspects
+  - [ ] Verification via unique phone number or email
+  - [ ] Tools for auditing suspicious accounts
+- [ ] Add a Webhook Discord
+  - [ ] Configure Webhook to send messages (notifications) on specific events (e.g. registration, purchase, status change)
+  - [ ] Send notifications of new payments or server changes to a specific channel
+  - [ ] Send alerts in the event of system errors or critical updates
+  - [ ] Integrate custom embeds to make notifications easier to read
+  - [ ] Add dynamic information (e.g. username, amount paid, server status) to sent messages
+  - [ ] Set permissions so that Webhook sends only the notifications you want
+  - [ ] Test notifications and ensure correct format (json, color, etc.).
+  - [ ] Create an admin interface to configure Webhook notifications (enable/disable)
+  - [ ] Set up options to send messages to different Discord channels depending on the event (e.g. one channel for alerts, another for payments, etc.).
 
-### Améliorations et optimisations
-- [ ] Ajouter un système de notifications en temps réel
-- [ ] Interface responsive (compatible mobile)
-- [ ] Multilingue (Français, Anglais, etc.)
-- [ ] Mode sombre / claire
-- [ ] Fonctionnalité de support en direct (chat en direct)
-- [ ] Personnalisation des thèmes et couleurs du dashboard
-- [ ] Amélioration de la sécurité (authentification à 2 facteurs, validation CAPTCHA)
-- [ ] API pour l'intégration avec d'autres outils tiers
-- [ ] Système de gestion des erreurs et des logs
-- [ ] Automatisation des rapports d'utilisation des ressources serveur
-- [ ] Amélioration de la vitesse de chargement avec mise en cache et optimisation des requêtes
+### Improvements and optimizations
+- [ ] Add a real-time notification system
+- [ ] Responsive interface (mobile-friendly)
+- [ ] Multilingual (English, French, etc.)
+- [ ] Dark / light mode
+- [ ] Live support functionality (live chat)
+- [ ] Customizable dashboard themes and colors
+- [ ] Enhanced security (2-factor authentication, CAPTCHA validation)
+- [ ] API for integration with other third-party tools
+- [ ] Error and log management system
+- [ ] Automated server resource utilization reports
+- [ ] Improved loading speed with caching and query optimization
 
-### Fonctions avancées
-- [ ] Tableau de bord admin avancé avec gestion des utilisateurs, serveurs et paiements
-- [ ] Création d'un module d'analytique pour suivre l'utilisation des services
-- [ ] Fonctionnalité de réinitialisation automatique des serveurs
-- [ ] Export des données au format CSV ou PDF
-- [ ] Intégration d'un système de feedback utilisateur
-- [ ] Système de referral pour encourager l'inscription de nouveaux utilisateurs
-- [ ] Fonctionnalité de gestion des permissions détaillée pour les utilisateurs
+### Advanced functions
+- [ ] Advanced admin dashboard with user, server and payment management
+- [ ] Creation of an analytics module to track service usage
+- [ ] Automatic server reset functionality
+- [ ] Data export in CSV or PDF format
+- [ ] Integration of a user feedback system
+- [ ] Referral system to encourage new users to sign up
+- [ ] Detailed permissions management for users
