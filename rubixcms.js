@@ -5,7 +5,7 @@ const bcrypt = require("bcrypt");
 const validator = require("validator");
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 30000;
 const FILE_PATH = path.join(__dirname, "users.txt");
 
 app.set("view engine", "ejs");
