@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Connexion</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --dark-violet: #2e2e2e;
+      --light-violet: #292929;
+      --accent: #f3f4f6;
+      --hover-accent: #202020;
+    }
+  </style>
+</head>
+<body class="bg-[var(--dark-violet)] text-[var(--accent)] flex items-center justify-center min-h-screen p-4">
+    <div class="bg-[var(--light-violet)] p-8 rounded-lg shadow-lg w-full max-w-md">
+        <h2 class="text-2xl font-semibold mb-6 text-center">Connecte-toi</h2>
+        <form action="/login" method="POST" class="space-y-6">
+            <input type="email" name="email" placeholder="Email" required class="border border-[var(--accent)] p-3 w-full rounded-md bg-[var(--dark-violet)] text-[var(--accent)] focus:ring-2 focus:ring-[var(--light-violet)] focus:outline-none">
+            <input type="password" name="password" placeholder="Mot de passe" required class="border border-[var(--accent)] p-3 w-full rounded-md bg-[var(--dark-violet)] text-[var(--accent)] focus:ring-2 focus:ring-[var(--light-violet)] focus:outline-none">
+            <button type="submit" class="bg-[var(--accent)] text-[var(--dark-violet)] p-3 w-full rounded-md hover:bg-[var(--hover-accent)] hover:text-[var(--accent)] transition duration-300 focus:ring-2 focus:ring-[var(--light-violet)]">
+                Connectez-vous
+            </button>
+        </form>
+    </div>
+</body>
+</html>

@@ -3,9 +3,10 @@ const fs = require("fs");
 const path = require("path");
 const bcrypt = require("bcrypt");
 const validator = require("validator");
+const session = require("express-session");
 
 const app = express();
-const PORT = process.env.PORT || 30000;
+const PORT = process.env.PORT || 3000;
 const FILE_PATH = path.join(__dirname, "users.txt");
 
 app.set("view engine", "ejs");
@@ -13,6 +14,13 @@ app.set("views", path.join(__dirname, "views"));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(
+    session({
+        secret: "your-secret-key",
+        resave: false,
+        saveUninitialized: true,
+    })
+);
 
 app.get("/", (req, res) => {
     let users = [];
@@ -54,6 +62,46 @@ app.post("/addUser", async (req, res) => {
         return res.send("Erreur lors de l'ajout de l'utilisateur.");
     }
 
+    res.redirect("/");
+});
+
+app.get("/login", (req, res) => {
+    res.render("login");
+});
+
+app.post("/login", async (req, res) => {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+        return res.send("Email et mot de passe sont requis !");
+    }
+
+    let users = [];
+    try {
+        if (fs.existsSync(FILE_PATH)) {
+            const lines = fs.readFileSync(FILE_PATH, "utf8").trim().split("\n");
+            users = lines.map(line => {
+                if (line.trim()) {
+                    return JSON.parse(line);
+                }
+            }).filter(user => user);
+        }
+    } catch (error) {
+        console.error("Error reading user data:", error);
+        return res.send("Erreur lors de la lecture des données utilisateur.");
+    }
+
+    const user = users.find(u => u.email === email);
+    if (!user) {
+        return res.send("Email ou mot de passe incorrect.");
+    }
+
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+        return res.send("Email ou mot de passe incorrect.");
+    }
+
+    req.session.user = user;
     res.redirect("/");
 });
 
