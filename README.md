@@ -1,12 +1,9 @@
 # RubixCMS
 A free CMS project created by two French people
 
-## Todo List
-Voici une version agrandie de la todo list pour **RubixCMS** avec des ajouts possibles :
-
 ## Todo List - RubixCMS
 
-### Fonctionnalités de base
+### Basic features
 - [x] Create an account system
 - [ ] Create FrontEnd (Customer Dashboard, Admin Dashboard)
   - [ ] User home page
