@@ -57,24 +57,26 @@ Voici une version agrandie de la todo list pour **RubixCMS** avec des ajouts pos
   - [ ] Create an admin interface to configure Webhook notifications (enable/disable)
   - [ ] Set up options to send messages to different Discord channels depending on the event (e.g. one channel for alerts, another for payments, etc.).
 
-### Améliorations et optimisations
-- [ ] Ajouter un système de notifications en temps réel
-- [ ] Interface responsive (compatible mobile)
-- [ ] Multilingue (Français, Anglais, etc.)
-- [ ] Mode sombre / claire
-- [ ] Fonctionnalité de support en direct (chat en direct)
-- [ ] Personnalisation des thèmes et couleurs du dashboard
-- [ ] Amélioration de la sécurité (authentification à 2 facteurs, validation CAPTCHA)
-- [ ] API pour l'intégration avec d'autres outils tiers
-- [ ] Système de gestion des erreurs et des logs
-- [ ] Automatisation des rapports d'utilisation des ressources serveur
-- [ ] Amélioration de la vitesse de chargement avec mise en cache et optimisation des requêtes
+### Improvements and optimizations
+- [ ] Add a real-time notification system
+- [ ] Responsive interface (mobile-friendly)
+- [ ] Multilingual (English, French, etc.)
+- [ ] Dark / light mode
+- [ ] Live support functionality (live chat)
+- [ ] Customizable dashboard themes and colors
+- [ ] Enhanced security (2-factor authentication, CAPTCHA validation)
+- [ ] API for integration with other third-party tools
+- [ ] Error and log management system
+- [ ] Automated server resource utilization reports
+- [ ] Improved loading speed with caching and query optimization
 
-### Fonctions avancées
-- [ ] Tableau de bord admin avancé avec gestion des utilisateurs, serveurs et paiements
-- [ ] Création d'un module d'analytique pour suivre l'utilisation des services
-- [ ] Fonctionnalité de réinitialisation automatique des serveurs
-- [ ] Export des données au format CSV ou PDF
-- [ ] Intégration d'un système de feedback utilisateur
-- [ ] Système de referral pour encourager l'inscription de nouveaux utilisateurs
-- [ ] Fonctionnalité de gestion des permissions détaillée pour les utilisateurs
+### Advanced functions
+- [ ] Advanced admin dashboard with user, server and payment management
+- [ ] Creation of an analytics module to track service usage
+- [ ] Automatic server reset functionality
+- [ ] Data export in CSV or PDF format
+- [ ] Integration of a user feedback system
+- [ ] Referral system to encourage new users to sign up
+- [ ] Detailed permissions management for users
+
+official discord server: [here](https://discord.gg/JWZFuDtNtp)
