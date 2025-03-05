@@ -23,7 +23,6 @@ app.use(
     })
 );
 
-// Middleware pour injecter `host` dans toutes les vues
 app.use((req, res, next) => {
     res.locals.host = config.Host;
     next();
@@ -131,6 +130,55 @@ app.get("/logout", (req, res) => {
     });
 });
 
-app.listen(PORT, () => {
+
+app.get("/admin-login", (req, res) => {
+    res.render("admin-login");
+});
+
+app.post("/admin-login", async (req, res) => {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+        return res.send("Email et mot de passe sont requis !");
+    }
+
+    const users = loadUsers();
+    const user = users.find(u => u.email === email);
+    if (!user) {
+        return res.send("Email ou mot de passe incorrect.");
+    }
+
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+        return res.send("Email ou mot de passe incorrect.");
+    }
+
+    req.session.user = user;
+    res.redirect("/admin");
+});
+
+
+
+
+
+
+app.listen(PORT, async () => {
     console.log(`RubixCMS a démarré sur le port ${PORT} pour l'hébergeur ${config.Host}`);
+
+    const users = loadUsers();
+    const adminUserExists = users.some(user => user.email === "admin@rubixcms.com");
+
+    if (!adminUserExists) {
+        console.log("Creating default admin user...");
+        const hashedPassword = await bcrypt.hash("123", 10);
+        const adminUser = {
+            email: "admin@rubixcms.com",
+            password: hashedPassword,
+            phone: "1234567890", // Dummy phone number
+            username: "admin"
+        };
+
+        fs.appendFileSync(FILE_PATH, JSON.stringify(adminUser) + "\n", "utf8");
+        console.log("Default admin user created.");
+    }
 });

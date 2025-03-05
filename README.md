@@ -22,7 +22,7 @@ official discord server: [here](https://discord.gg/JWZFuDtNtp)
   - [ ] RESTful API
   - [ ] Notification system integration
   - [ ] Config page
-  - [x] Config files
+  - [x] Config file
 - [ ] Add Pterodactyl API
   - [ ] Automatic server creation on payment
   - [ ] Automatic server suspension on service expiry

@@ -1,0 +1,1 @@
+{"email":"admin@rubixcms.com","password":"$2b$10$LbKCIxBiQ5odltP2Zuw6EumGXVDNw4BhuIGQ3FOi/5F3IwNv.5KjS","phone":"1234567890","username":"admin"}
