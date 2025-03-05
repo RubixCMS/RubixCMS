@@ -1,0 +1,14 @@
+[
+    {
+        "name": "demo",
+        "price": "0"
+    },
+    {
+        "name": "starter",
+        "price": "1"
+    },    
+    {
+        "name": "pro",
+        "price": "1"
+    }
+]

@@ -10,7 +10,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const config = require("./config.json");
 const DB_PATH = path.join(__dirname, "users.db");
-const PRODUCT_PATH = path.join(__dirname, "product");
+const PRODUCT_PATH = path.join(__dirname, "data", "products.json");
 
 const db = new sqlite3.Database(DB_PATH);
 
@@ -21,7 +21,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(
     session({
-        secret: "your-secret-key", //edit the secret Key
+        secret: config.secret,
         resave: false,
         saveUninitialized: true,
     })
@@ -305,8 +305,34 @@ app.get("/admin/settings/product", async (req, res) => {
     const user = users.find(u => u.email === req.session.user.email);
     const totalUsers = users.length;
 
-    res.render("admin/settings/product", { user, totalUsers, users, balance: user.balance });
+
+    fs.readFile('products.json', 'utf8', (err, data) => {
+        if (err) {
+            res.send(err);
+            return;
+        }
+        
+        const products = JSON.parse(data);
+        res.render("admin/settings/product", { user, totalUsers, users, balance: user.balance, products });
+    });
+
+    
 });
+
+app.get("/admin/settings/global", async (req, res) => {
+    if (!req.session.user || req.session.user.username !== "admin") {
+        return res.redirect("/login");
+    }
+
+    const users = await loadUsers();
+    const user = users.find(u => u.email === req.session.user.email);
+    const totalUsers = users.length;
+
+
+
+    res.render("admin/settings/global", { user, totalUsers, users, balance: user.balance });
+});
+
 
 
 app.post("/user/update-balance", async (req, res) => {
@@ -343,16 +369,31 @@ app.post("/product-add", async (req, res) => {
         return res.status(400).send("Tous les champs sont requis !");
     }
 
-    const productDir = path.join(PRODUCT_PATH, product_name);
-
-    if (!fs.existsSync(productDir)) {
-        fs.mkdirSync(productDir, { recursive: true });
+    let products = [];
+    if (fs.existsSync(PRODUCT_PATH)) {
+        const fileContent = fs.readFileSync(PRODUCT_PATH, "utf8");
+        try {
+            products = JSON.parse(fileContent);
+        } catch (error) {
+            return res.status(500).send("Erreur de lecture du fichier JSON");
+        }
     }
 
-    fs.writeFileSync(path.join(productDir, "description.txt"), product_description, 'utf8');
+    const newProduct = {
+        name: product_name,
+        description: product_description,
+        price: product_price
+    };
+    products.push(newProduct);
 
-    res.redirect("/admin/home");
+    try {
+        fs.writeFileSync(__dirname, JSON.stringify(products, null, 4), "utf8");
+        res.redirect("/admin/home");
+    } catch (error) {
+        return res.status(500).send("Erreur lors de l'écriture du fichier JSON");
+    }
 });
+
 
 app.listen(PORT, async () => {
     console.log(`RubixCMS a démarré sur le port ${PORT} pour l'hébergeur ${config.Host}`);
