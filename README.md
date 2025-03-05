@@ -10,8 +10,8 @@ official discord server: [here](https://discord.gg/JWZFuDtNtp)
   - [ ] User home page
   - [ ] Service management interface
   - [ ] User management interface
-  - [ ] Connection interface
-  - [ ] Account creation interface
+  - [x] Connection interface
+  - [x] Account creation interface
   - [ ] Admin interface
 - [ ] Create BackEnd
   - [ ] Database management
