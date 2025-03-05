@@ -1,0 +1,3 @@
+{"email":"admin@rubixcms.com","password":"$2b$10$SR9hA2NKeBkg7IsSng9JDu4.xhV5mnOpOOxChFUMCpCRHiKoBFIpS","phone":"1234567890","username":"admin"}
+{"email":"chationofficiel@gmail.com","password":"$2b$10$.UNqcWH2EoeGVzXtwk5dzu2GcVSiXgplfBiCGDvp8x09xObo7dgaO","phone":"6446363737","username":"sahran"}
+{"email":"chationofficiel@gmail.com","password":"$2b$10$SFx.Yc8cVT6nr6cYZD.qzOky133frlry9QnEnGjU.2Z2vasRYl6Sq","phone":"1233333333","username":"sahran"}

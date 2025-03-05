@@ -154,7 +154,13 @@ app.post("/admin-login", async (req, res) => {
     }
 
     req.session.user = user;
-    res.redirect("/admin");
+
+    if (user.username != "admin") {
+        return res.send("Vous n'êtes pas administrateur !");
+    }
+    else {
+        res.redirect("/admin");
+    }
 });
 
 app.get("/admin", (req, res) => {
@@ -166,7 +172,13 @@ app.get("/admin", (req, res) => {
     const user = users.find(u => u.email === req.session.user.email);
     const totalUsers = users.length;
 
-    res.render("admin", { user, totalUsers });
+    if (user.username != "admin") {
+        res.redirect("/admin-login");
+        return res.send("Vous n'êtes pas administrateur !");
+    } else {
+        res.render("admin", { user, totalUsers });
+    }
+    
 });
 
 
