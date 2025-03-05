@@ -177,8 +177,8 @@ app.get("/settings", async (req, res) => {
     res.render("settings", { user });
 });
 
-app.get("/admin-login", (req, res) => {
-    res.render("admin-login");
+app.get("/admin/login", (req, res) => {
+    res.render("admin/login");
 });
 
 app.post("/admin-login", async (req, res) => {
@@ -205,11 +205,11 @@ app.post("/admin-login", async (req, res) => {
         return res.send("Vous n'êtes pas administrateur !");
     }
     else {
-        res.redirect("/admin");
+        res.redirect("/admin/home");
     }
 });
 
-app.get("/admin", async (req, res) => {
+app.get("/admin/home", async (req, res) => {
     if (!req.session.user) {
         return res.redirect("/login");
     }
@@ -222,11 +222,11 @@ app.get("/admin", async (req, res) => {
         res.redirect("/login");
         return res.send("Vous n'êtes pas administrateur !");
     } else {
-        res.render("admin", { user, totalUsers });
+        res.render("admin/home", { user, totalUsers });
     }
 });
 
-app.get("/admin-users", async (req, res) => {
+app.get("/admin/settings", async (req, res) => {
     if (!req.session.user) {
         return res.redirect("/login");
     }
@@ -236,10 +236,27 @@ app.get("/admin-users", async (req, res) => {
     const totalUsers = users.length;
 
     if (user.username != "admin") {
-        res.redirect("/admin-login");
+        res.redirect("/login");
         return res.send("Vous n'êtes pas administrateur !");
     } else {
-        res.render("admin-users", { user, totalUsers, users });
+        res.render("admin/settings", { user, totalUsers });
+    }
+});
+
+app.get("/admin/users-panel", async (req, res) => {
+    if (!req.session.user) {
+        return res.redirect("/login");
+    }
+
+    const users = await loadUsers();
+    const user = users.find(u => u.email === req.session.user.email);
+    const totalUsers = users.length;
+
+    if (user.username != "admin") {
+        res.redirect("/admin/login");
+        return res.send("Vous n'êtes pas administrateur !");
+    } else {
+        res.render("admin/users-panel", { user, totalUsers, users });
     }
 });
 
