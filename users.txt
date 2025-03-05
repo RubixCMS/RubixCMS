@@ -1,1 +1,2 @@
 
+{"email":"chationofficiel@gmail.com","password":"$2b$10$YSzN5gzCkHcNQghgeGikeuQ9wFfUVJMZWhZ/sInusS5jN5q21IKd6","phone":"0787307117","username":"sahran"}

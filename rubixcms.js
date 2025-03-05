@@ -7,6 +7,7 @@ const session = require("express-session");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+const config = require("./config.json");
 const FILE_PATH = path.join(__dirname, "users.txt");
 
 app.set("view engine", "ejs");
@@ -16,11 +17,17 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(
     session({
-        secret: "your-secret-key", //edit the secret keys
+        secret: "your-secret-key", // Édite la clé secrète
         resave: false,
         saveUninitialized: true,
     })
 );
+
+// Middleware pour injecter `host` dans toutes les vues
+app.use((req, res, next) => {
+    res.locals.host = config.Host;
+    next();
+});
 
 function loadUsers() {
     let users = [];
@@ -93,9 +100,9 @@ app.post("/login", async (req, res) => {
     res.redirect("/home");
 });
 
-app.get('/home', (req, res) => {
+app.get("/home", (req, res) => {
     if (!req.session.user) {
-        return res.redirect('/');
+        return res.redirect("/");
     }
 
     const users = loadUsers();
@@ -103,18 +110,13 @@ app.get('/home', (req, res) => {
     res.render("home", { user });
 });
 
-app.get('/service', (req, res) => {
-    console.log("Session user:", req.session.user);
-
+app.get("/service", (req, res) => {
     if (!req.session.user) {
-        return res.redirect('/service');
+        return res.redirect("/");
     }
 
     const users = loadUsers();
-    console.log("Loaded users:", users);
-
     const user = users.find(u => u.email === req.session.user.email);
-    console.log("Found user:", user);
 
     if (!user) {
         return res.send("User not found.");
@@ -123,13 +125,12 @@ app.get('/service', (req, res) => {
     res.render("service", { user });
 });
 
-app.get('/logout', (req, res) => {
-
-    req.session.destroy()
-
-    res.render("login");
+app.get("/logout", (req, res) => {
+    req.session.destroy(() => {
+        res.redirect("/login");
+    });
 });
 
 app.listen(PORT, () => {
-    console.log(`RubixCMS a démarré sur le port ${PORT}`);
+    console.log(`RubixCMS a démarré sur le port ${PORT} pour l'hébergeur ${config.Host}`);
 });
