@@ -134,7 +134,9 @@ app.get("/home", async (req, res) => {
 
     const users = await loadUsers();
     const user = users.find(u => u.email === req.session.user.email);
-    res.render("home", { user });
+    const email = user.email;
+    const targetUser = users.find(u => u.email === email);
+    res.render("home", { user, users, userBalance: targetUser.balance, balance: user.balance });
 });
 
 app.get("/service", async (req, res) => {
@@ -151,6 +153,25 @@ app.get("/service", async (req, res) => {
 
     res.render("service", { user });
 });
+
+
+app.get("/active-service", async (req, res) => {
+    if (!req.session.user) {
+        return res.redirect("/login");
+    }
+
+    const users = await loadUsers();
+    const user = users.find(u => u.email === req.session.user.email);
+    const email = user.email;
+    const targetUser = users.find(u => u.email === email);
+
+    if (!user) {
+        return res.send("Utilisateur introuvable.");
+    }
+
+    res.render("active-service", { user, users, userBalance: targetUser.balance, balance: user.balance });
+});
+
 
 app.get("/logout", (req, res) => {
     req.session.destroy(() => {
@@ -238,11 +259,12 @@ app.get("/admin/user/balance", async (req, res) => {
     const targetUser = users.find(u => u.email === email);
 
     if (!targetUser) {
-        return res.send("Utilisateur introuvable.");
+        return res.send("Utilisateur introuvable.")
     }
 
-    res.render("admin/user/balance", { user, totalUsers, targetUser, email, userBalance : user.balance });
+    res.render("admin/user/balance", { user, totalUsers, targetUser, email, userBalance: targetUser.balance });
 });
+
 
 app.post("/changeBalance", async (req, res) => {
     const { balance } = req.body;

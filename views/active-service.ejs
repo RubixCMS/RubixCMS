@@ -23,7 +23,7 @@
     <h1 class="text-2xl font-bold text-[var(--accent)]"><%= host %></h1>
     <nav>
         <a href="home" class="mx-4 hover:text-[var(--accent)]">Home</a>
-        <a href="#" class="mx-4 hover:text-[var(--accent)]">Service</a>
+        <a href="service" class="mx-4 hover:text-[var(--accent)]">Service</a>
         <a href="#" class="mx-4 hover:text-[var(--accent)]">Service Active</a>
         <a href="settings" class="mx-4 hover:text-[var(--accent)]">Settings</a>
         </nav>
@@ -34,12 +34,25 @@
 
 <!-- Contenu principal -->
 <main class="flex-grow flex flex-col items-center justify-start text-center p-6">
-  <h2 class="text-4xl font-bold text-[var(--accent)]">Our products !</h2>
+  <h2 class="text-4xl font-bold text-[var(--accent)]">Our active service !</h2>
+  <br>
+
+<div class="flex justify-between gap-4">
+    <!-- Money -->
+    <div class="bg-[var(--light-violet)] p-6 rounded-lg shadow-md flex-grow flex-shrink">
+      <h3 class="text-2xl font-bold text-[var(--accent)]">Your balance</h3>
+      <p class="text-xl mt-2"><%= userBalance %><span class="text-[var(--accent)]"> €</span></p>
+    </div>
+  
+    <!-- Service -->
+    <div class="bg-[var(--light-violet)] p-6 rounded-lg shadow-md flex-grow flex-shrink">
+      <h3 class="text-2xl font-bold text-[var(--accent)]">Your service</h3>
+      <p class="text-xl mt-2">0<span class="text-[var(--accent)]"> Service</span></p>
+    </div>
+  </div>    
+
 </main>
 
-<!--faire plus tard-->
-<!--faire plus tard-->
-<!--faire plus tard-->
 
 
   <!-- Footer -->

@@ -18,7 +18,7 @@
 </style>
 <body class="bg-[var(--dark-violet)] text-[var(--text-color)] flex flex-col items-center justify-start p-6">
     <h1 class="text-4xl font-bold text-[var(--accent)] mb-6">Settings user: <%= email %></h1>
-    
+
     <form action="/changeBalance?email=<%= email %>" method="POST" class="bg-[var(--light-violet)] p-6 rounded-lg shadow-md w-full max-w-md">
             <label for="balance" class="block text-lg mb-2">Set Sold: :</label>
             <input type="number" id="balance" name="balance" required step="0.01" min="0" class="w-full p-2 border-[var(--text-color)] text-black" />
