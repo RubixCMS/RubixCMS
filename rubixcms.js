@@ -157,9 +157,17 @@ app.post("/admin-login", async (req, res) => {
     res.redirect("/admin");
 });
 
+app.get("/admin", (req, res) => {
+    if (!req.session.user) {
+        return res.redirect("/");
+    }
 
+    const users = loadUsers();
+    const user = users.find(u => u.email === req.session.user.email);
+    const totalUsers = users.length;
 
-
+    res.render("admin", { user, totalUsers });
+});
 
 
 app.listen(PORT, async () => {
@@ -174,7 +182,7 @@ app.listen(PORT, async () => {
         const adminUser = {
             email: "admin@rubixcms.com",
             password: hashedPassword,
-            phone: "1234567890", // Dummy phone number
+            phone: "1234567890",
             username: "admin"
         };
 
