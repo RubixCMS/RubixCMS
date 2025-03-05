@@ -123,6 +123,13 @@ app.get('/service', (req, res) => {
     res.render("service", { user });
 });
 
+app.get('/logout', (req, res) => {
+
+    req.session.destroy()
+
+    res.render("login");
+});
+
 app.listen(PORT, () => {
     console.log(`RubixCMS a démarré sur le port ${PORT}`);
 });
