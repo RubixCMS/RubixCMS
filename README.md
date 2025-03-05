@@ -2,6 +2,10 @@
 A free CMS project created by two French people
 official discord server: [here](https://discord.gg/JWZFuDtNtp)
 
+## How install RubixCMS
+### Install dependency
+```npm install```
+
 ## Todo List - RubixCMS
 
 ### Basic features
