@@ -11,14 +11,15 @@ official discord server: [here](https://discord.gg/JWZFuDtNtp)
 ### Basic features
 - [x] Create an account system
 - [ ] Create FrontEnd (Customer Dashboard, Admin Dashboard, + CSS)
-  - [ ] User home page
+  - [x] User home page
   - [ ] Service management interface
   - [ ] User management interface
   - [x] Connection interface
   - [x] Account creation interface
   - [ ] Admin interface
 - [ ] Create BackEnd
-  - [ ] Database management
+  - [ ] Databases service
+  - [x] Databases user
   - [ ] RESTful API
   - [ ] Notification system integration
   - [ ] Config page

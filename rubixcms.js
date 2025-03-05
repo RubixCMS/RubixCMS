@@ -4,11 +4,14 @@ const path = require("path");
 const bcrypt = require("bcrypt");
 const validator = require("validator");
 const session = require("express-session");
+const sqlite3 = require("sqlite3").verbose();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 const config = require("./config.json");
-const FILE_PATH = path.join(__dirname, "users.txt");
+const DB_PATH = path.join(__dirname, "users.db");
+
+const db = new sqlite3.Database(DB_PATH);
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
@@ -17,7 +20,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(
     session({
-        secret: "your-secret-key", // Édite la clé secrète
+        secret: "your-secret-key",
         resave: false,
         saveUninitialized: true,
     })
@@ -28,25 +31,20 @@ app.use((req, res, next) => {
     next();
 });
 
-function loadUsers() {
-    let users = [];
-    try {
-        if (fs.existsSync(FILE_PATH)) {
-            const lines = fs.readFileSync(FILE_PATH, "utf8").trim().split("\n");
-            users = lines.map(line => {
-                if (line.trim()) {
-                    return JSON.parse(line);
-                }
-            }).filter(user => user);
-        }
-    } catch (error) {
-        console.error("Error reading user data:", error);
-    }
-    return users;
+async function loadUsers() {
+    return new Promise((resolve, reject) => {
+        db.all("SELECT * FROM users", [], (err, rows) => {
+            if (err) {
+                reject("Error fetching users: " + err);
+            } else {
+                resolve(rows);
+            }
+        });
+    });
 }
 
-app.get("/", (req, res) => {
-    const users = loadUsers();
+app.get("/", async (req, res) => {
+    const users = await loadUsers();
     res.render("index", { users });
 });
 
@@ -61,16 +59,46 @@ app.post("/addUser", async (req, res) => {
         return res.send("Format d'email ou de téléphone invalide !");
     }
 
+    const users = await loadUsers();
+    
+    if (users.some(user => user.email === email)) {
+        return res.send("Cet email est déjà utilisé !");
+    }
+    if (users.some(user => user.username === username)) {
+        return res.send("Ce nom d'utilisateur est déjà pris !");
+    }
+
     try {
         const hashedPassword = await bcrypt.hash(password, 10);
         const user = { email, password: hashedPassword, phone, username };
 
-        fs.appendFileSync(FILE_PATH, JSON.stringify(user) + "\n", "utf8");
-        res.redirect("/");
+        db.run(
+            "INSERT INTO users (email, password, phone, username) VALUES (?, ?, ?, ?)",
+            [user.email, user.password, user.phone, user.username],
+            (err) => {
+                if (err) {
+                    console.error("Error inserting user:", err);
+                    return res.send("Erreur lors de l'ajout de l'utilisateur.");
+                }
+                res.redirect("/");
+            }
+        );
     } catch (error) {
         console.error("Error writing user data:", error);
         return res.send("Erreur lors de l'ajout de l'utilisateur.");
     }
+});
+
+app.post("/deleteUser", (req, res) => {
+    const { email } = req.body;
+
+    db.run("DELETE FROM users WHERE email = ?", [email], (err) => {
+        if (err) {
+            console.error("Error deleting user:", err);
+            return res.send("Erreur lors de la suppression de l'utilisateur.");
+        }
+        res.redirect("/userList");
+    });
 });
 
 app.get("/login", (req, res) => {
@@ -84,7 +112,7 @@ app.post("/login", async (req, res) => {
         return res.send("Email et mot de passe sont requis !");
     }
 
-    const users = loadUsers();
+    const users = await loadUsers();
     const user = users.find(u => u.email === email);
     if (!user) {
         return res.send("Email ou mot de passe incorrect.");
@@ -99,22 +127,22 @@ app.post("/login", async (req, res) => {
     res.redirect("/home");
 });
 
-app.get("/home", (req, res) => {
+app.get("/home", async (req, res) => {
     if (!req.session.user) {
-        return res.redirect("/");
+        return res.redirect("/login");
     }
 
-    const users = loadUsers();
+    const users = await loadUsers();
     const user = users.find(u => u.email === req.session.user.email);
     res.render("home", { user });
 });
 
-app.get("/service", (req, res) => {
+app.get("/service", async (req, res) => {
     if (!req.session.user) {
-        return res.redirect("/");
+        return res.redirect("/login");
     }
 
-    const users = loadUsers();
+    const users = await loadUsers();
     const user = users.find(u => u.email === req.session.user.email);
 
     if (!user) {
@@ -130,6 +158,24 @@ app.get("/logout", (req, res) => {
     });
 });
 
+app.get("/userlist", (req, res) => {
+    res.redirect("/admin-users");
+});
+
+app.get("/settings", async (req, res) => {
+    if (!req.session.user) {
+        return res.redirect("/login");
+    }
+
+    const users = await loadUsers();
+    const user = users.find(u => u.email === req.session.user.email);
+
+    if (!user) {
+        return res.send("User not found.");
+    }
+
+    res.render("settings", { user });
+});
 
 app.get("/admin-login", (req, res) => {
     res.render("admin-login");
@@ -142,7 +188,7 @@ app.post("/admin-login", async (req, res) => {
         return res.send("Email et mot de passe sont requis !");
     }
 
-    const users = loadUsers();
+    const users = await loadUsers();
     const user = users.find(u => u.email === email);
     if (!user) {
         return res.send("Email ou mot de passe incorrect.");
@@ -163,12 +209,29 @@ app.post("/admin-login", async (req, res) => {
     }
 });
 
-app.get("/admin", (req, res) => {
+app.get("/admin", async (req, res) => {
     if (!req.session.user) {
-        return res.redirect("/");
+        return res.redirect("/login");
     }
 
-    const users = loadUsers();
+    const users = await loadUsers();
+    const user = users.find(u => u.email === req.session.user.email);
+    const totalUsers = users.length;
+
+    if (user.username != "admin") {
+        res.redirect("/login");
+        return res.send("Vous n'êtes pas administrateur !");
+    } else {
+        res.render("admin", { user, totalUsers });
+    }
+});
+
+app.get("/admin-users", async (req, res) => {
+    if (!req.session.user) {
+        return res.redirect("/login");
+    }
+
+    const users = await loadUsers();
     const user = users.find(u => u.email === req.session.user.email);
     const totalUsers = users.length;
 
@@ -176,16 +239,27 @@ app.get("/admin", (req, res) => {
         res.redirect("/admin-login");
         return res.send("Vous n'êtes pas administrateur !");
     } else {
-        res.render("admin", { user, totalUsers });
+        res.render("admin-users", { user, totalUsers, users });
     }
-    
 });
-
 
 app.listen(PORT, async () => {
     console.log(`RubixCMS a démarré sur le port ${PORT} pour l'hébergeur ${config.Host}`);
 
-    const users = loadUsers();
+    await new Promise((resolve, reject) => {
+        db.run(
+            "CREATE TABLE IF NOT EXISTS users (email TEXT PRIMARY KEY, password TEXT, phone TEXT, username TEXT)",
+            (err) => {
+                if (err) {
+                    reject("Error creating table: " + err);
+                } else {
+                    resolve();
+                }
+            }
+        );
+    });
+
+    const users = await loadUsers();
     const adminUserExists = users.some(user => user.email === "admin@rubixcms.com");
 
     if (!adminUserExists) {
@@ -198,7 +272,16 @@ app.listen(PORT, async () => {
             username: "admin"
         };
 
-        fs.appendFileSync(FILE_PATH, JSON.stringify(adminUser) + "\n", "utf8");
-        console.log("Default admin user created.");
+        db.run(
+            "INSERT INTO users (email, password, phone, username) VALUES (?, ?, ?, ?)",
+            [adminUser.email, adminUser.password, adminUser.phone, adminUser.username],
+            (err) => {
+                if (err) {
+                    console.error("Error creating admin user:", err);
+                } else {
+                    console.log("Default admin user created.");
+                }
+            }
+        );
     }
 });
