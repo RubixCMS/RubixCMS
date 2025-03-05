@@ -22,9 +22,9 @@ app.use(
     })
 );
 
-app.get("/", (req, res) => {
+// Reusable function to load users from the file
+function loadUsers() {
     let users = [];
-
     try {
         if (fs.existsSync(FILE_PATH)) {
             const lines = fs.readFileSync(FILE_PATH, "utf8").trim().split("\n");
@@ -37,7 +37,11 @@ app.get("/", (req, res) => {
     } catch (error) {
         console.error("Error reading user data:", error);
     }
+    return users;
+}
 
+app.get("/", (req, res) => {
+    const users = loadUsers();
     res.render("index", { users });
 });
 
@@ -76,21 +80,7 @@ app.post("/login", async (req, res) => {
         return res.send("Email et mot de passe sont requis !");
     }
 
-    let users = [];
-    try {
-        if (fs.existsSync(FILE_PATH)) {
-            const lines = fs.readFileSync(FILE_PATH, "utf8").trim().split("\n");
-            users = lines.map(line => {
-                if (line.trim()) {
-                    return JSON.parse(line);
-                }
-            }).filter(user => user);
-        }
-    } catch (error) {
-        console.error("Error reading user data:", error);
-        return res.send("Erreur lors de la lecture des données utilisateur.");
-    }
-
+    const users = loadUsers();
     const user = users.find(u => u.email === email);
     if (!user) {
         return res.send("Email ou mot de passe incorrect.");
@@ -102,9 +92,19 @@ app.post("/login", async (req, res) => {
     }
 
     req.session.user = user;
-    res.redirect("/");
+    res.redirect("/home");
+});
+
+app.get('/home', (req, res) => {
+    if (!req.session.user) {
+        return res.redirect('/');
+    }
+
+    const users = loadUsers(); // Charge tous les utilisateurs
+    const user = users.find(u => u.email === req.session.user.email); // Trouve l'utilisateur dans la liste
+    res.render("home", { user });
 });
 
 app.listen(PORT, () => {
-    console.log(`✅ Serveur démarré sur le port ${PORT}`);
+    console.log(`RubixCMS à démarré sur le port ${PORT}`);
 });
