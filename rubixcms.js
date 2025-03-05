@@ -21,8 +21,6 @@ app.use(
         saveUninitialized: true,
     })
 );
-
-// Reusable function to load users from the file
 function loadUsers() {
     let users = [];
     try {
@@ -100,8 +98,8 @@ app.get('/home', (req, res) => {
         return res.redirect('/');
     }
 
-    const users = loadUsers(); // Charge tous les utilisateurs
-    const user = users.find(u => u.email === req.session.user.email); // Trouve l'utilisateur dans la liste
+    const users = loadUsers();
+    const user = users.find(u => u.email === req.session.user.email);
     res.render("home", { user });
 });
 
