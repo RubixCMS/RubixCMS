@@ -16,11 +16,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(
     session({
-        secret: "your-secret-key",
+        secret: "your-secret-key", //edit the secret keys
         resave: false,
         saveUninitialized: true,
     })
 );
+
 function loadUsers() {
     let users = [];
     try {
@@ -54,17 +55,16 @@ app.post("/addUser", async (req, res) => {
         return res.send("Format d'email ou de téléphone invalide !");
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const user = { email, password: hashedPassword, phone, username };
-
     try {
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const user = { email, password: hashedPassword, phone, username };
+
         fs.appendFileSync(FILE_PATH, JSON.stringify(user) + "\n", "utf8");
+        res.redirect("/");
     } catch (error) {
         console.error("Error writing user data:", error);
         return res.send("Erreur lors de l'ajout de l'utilisateur.");
     }
-
-    res.redirect("/");
 });
 
 app.get("/login", (req, res) => {
@@ -103,6 +103,26 @@ app.get('/home', (req, res) => {
     res.render("home", { user });
 });
 
+app.get('/service', (req, res) => {
+    console.log("Session user:", req.session.user);
+
+    if (!req.session.user) {
+        return res.redirect('/service');
+    }
+
+    const users = loadUsers();
+    console.log("Loaded users:", users);
+
+    const user = users.find(u => u.email === req.session.user.email);
+    console.log("Found user:", user);
+
+    if (!user) {
+        return res.send("User not found.");
+    }
+
+    res.render("service", { user });
+});
+
 app.listen(PORT, () => {
-    console.log(`RubixCMS à démarré sur le port ${PORT}`);
+    console.log(`RubixCMS a démarré sur le port ${PORT}`);
 });
