@@ -1,3 +1,1 @@
 
-{"email":"yanis.lahdilitargon@gmail.com","password":"$2b$10$.UpPdCg4sWG6dg.iyryj1OSVAjlVZEOf7JYe02IgZKJnyPX2jfnbO","phone":"0744757365","username":"yanis_truc"}
-{"email":"chationofficiel@gmail.com","password":"$2b$10$Sd0sf6OTtpKon.97D82Jne8AhAbp7ylzgHU80bXDfd5MpCCq01kcS","phone":"0787307117","username":"Loris"}
