@@ -10,6 +10,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const config = require("./config.json");
 const DB_PATH = path.join(__dirname, "users.db");
+const PRODUCT_PATH = path.join(__dirname, "product");
 
 const db = new sqlite3.Database(DB_PATH);
 
@@ -20,7 +21,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(
     session({
-        secret: "your-secret-key",
+        secret: "your-secret-key", //edit the secret Key
         resave: false,
         saveUninitialized: true,
     })
@@ -294,6 +295,20 @@ app.post("/changeBalance", async (req, res) => {
     );
 });
 
+
+app.get("/admin/settings/product", async (req, res) => {
+    if (!req.session.user || req.session.user.username !== "admin") {
+        return res.redirect("/login");
+    }
+
+    const users = await loadUsers();
+    const user = users.find(u => u.email === req.session.user.email);
+    const totalUsers = users.length;
+
+    res.render("admin/settings/product", { user, totalUsers, users, balance: user.balance });
+});
+
+
 app.post("/user/update-balance", async (req, res) => {
     const { email, amount } = req.body;
 
@@ -317,6 +332,26 @@ app.post("/user/update-balance", async (req, res) => {
         }
         res.redirect("/home");
     });
+});
+
+app.post("/product-add", async (req, res) => {
+    const product_name = req.body.product_name;
+    const product_description = req.body.product_description;
+    const product_price = req.body.product_price;
+
+    if (!product_name || !product_description || !product_price) {
+        return res.status(400).send("Tous les champs sont requis !");
+    }
+
+    const productDir = path.join(PRODUCT_PATH, product_name);
+
+    if (!fs.existsSync(productDir)) {
+        fs.mkdirSync(productDir, { recursive: true });
+    }
+
+    fs.writeFileSync(path.join(productDir, "description.txt"), product_description, 'utf8');
+
+    res.redirect("/admin/home");
 });
 
 app.listen(PORT, async () => {

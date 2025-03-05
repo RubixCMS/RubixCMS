@@ -16,8 +16,13 @@
     }
   </style>
 </head>
-<body class="bg-[var(--dark-violet)] text-[var(--text-color)] flex items-center justify-center min-h-screen p-4">
-    <div class="bg-[var(--light-violet)] p-8 rounded-lg shadow-2xl w-full max-w-md border border-[var(--border-color)]">
+<body class="bg-[var(--dark-violet)] text-[var(--text-color)] flex items-center justify-center min-h-screen p-4 relative">
+  <a href="/admin/login" class="absolute top-4 right-4 bg-[var(--accent)] p-3 rounded-full shadow-lg hover:bg-[var(--hover-accent)] transition duration-300">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+    </svg>
+      </a>
+  <div class="bg-[var(--light-violet)] p-8 rounded-lg shadow-2xl w-full max-w-md border border-[var(--border-color)]">
         <h2 class="text-3xl font-bold mb-6 text-center text-[var(--accent)]">Connection</h2>
         <form action="/login" method="POST" class="space-y-6">
             <input type="email" name="email" placeholder="Email" required class="border border-[var(--border-color)] p-3 w-full rounded-md bg-[var(--dark-violet)] text-[var(--text-color)] focus:ring-2 focus:ring-[var(--accent)] focus:outline-none">
