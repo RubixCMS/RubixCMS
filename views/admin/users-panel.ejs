@@ -15,6 +15,13 @@
       --border-color: #3d3d3d;
     }
   </style>
+  <script>
+    function editUser(username) {
+      const form = document.getElementById('edit-form-' + username);
+      form.action = '/admin/user/balance?user=' + encodeURIComponent(username);
+      form.submit()
+    }
+  </script>
 </head>
 <body class="bg-[var(--dark-violet)] text-[var(--text-color)] flex flex-col min-h-screen">
 
@@ -42,8 +49,8 @@
         <thead>
           <tr class="bg-[var(--light-violet)] text-[var(--accent)]">
             <th class="border border-[var(--border-color)] p-3">Email</th>
-            <th class="border border-[var(--border-color)] p-3">Nom d'utilisateur</th>
-            <th class="border border-[var(--border-color)] p-3">Téléphone</th>
+            <th class="border border-[var(--border-color)] p-3">Username</th>
+            <th class="border border-[var(--border-color)] p-3">Phone</th>
             <th class="border border-[var(--border-color)] p-3">Actions</th>
           </tr>
         </thead>
@@ -54,16 +61,21 @@
             <td class="border border-[var(--border-color)] p-3"><%= user.username %></td>
             <td class="border border-[var(--border-color)] p-3"><%= user.phone %></td>
             <td class="border border-[var(--border-color)] p-3">
-              <form action="/deleteUser" method="POST" onsubmit="return confirm('Voulez-vous vraiment supprimer cet utilisateur ?');">
+              <form action="/deleteUser" method="POST" onsubmit="return confirm('Are you sure you want to delete this user ?');">
                 <input type="hidden" name="email" value="<%= user.email %>">
-                <button type="submit" class="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-800">Supprimer</button>
-              </form>
+                <button type="submit" class="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-800">Delete</button>
+              </form> 
+              <br>
+              <form id="edit-form-<%= user.username %>" action="/admin/user/balance" method="GET">
+                <input type="hidden" name="email" value="<%= user.email %>">
+                <button type="button" class="bg-violet-600 text-white px-3 py-1 rounded hover:bg-violet-900" onclick="editUser('<%= user.username %>')">Edit</button>
+              </form> 
             </td>
           </tr>
           <% }) %>
         </tbody>
       </table>
-          </div>
+    </div>
   </main>
 
   <!-- Footer -->

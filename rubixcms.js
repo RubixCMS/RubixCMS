@@ -70,11 +70,11 @@ app.post("/addUser", async (req, res) => {
 
     try {
         const hashedPassword = await bcrypt.hash(password, 10);
-        const user = { email, password: hashedPassword, phone, username };
+        const user = { email, password: hashedPassword, phone, username, balance: 0 };
 
         db.run(
-            "INSERT INTO users (email, password, phone, username) VALUES (?, ?, ?, ?)",
-            [user.email, user.password, user.phone, user.username],
+            "INSERT INTO users (email, password, phone, username, balance) VALUES (?, ?, ?, ?, ?)",
+            [user.email, user.password, user.phone, user.username, user.balance],
             (err) => {
                 if (err) {
                     console.error("Error inserting user:", err);
@@ -97,7 +97,7 @@ app.post("/deleteUser", (req, res) => {
             console.error("Error deleting user:", err);
             return res.send("Erreur lors de la suppression de l'utilisateur.");
         }
-        res.redirect("/userList");
+        res.redirect("/admin/users-panel");
     });
 });
 
@@ -146,7 +146,7 @@ app.get("/service", async (req, res) => {
     const user = users.find(u => u.email === req.session.user.email);
 
     if (!user) {
-        return res.send("User not found.");
+        return res.send("Utilisateur introuvable.");
     }
 
     res.render("service", { user });
@@ -156,25 +156,6 @@ app.get("/logout", (req, res) => {
     req.session.destroy(() => {
         res.redirect("/login");
     });
-});
-
-app.get("/userlist", (req, res) => {
-    res.redirect("/admin-users");
-});
-
-app.get("/settings", async (req, res) => {
-    if (!req.session.user) {
-        return res.redirect("/login");
-    }
-
-    const users = await loadUsers();
-    const user = users.find(u => u.email === req.session.user.email);
-
-    if (!user) {
-        return res.send("User not found.");
-    }
-
-    res.render("settings", { user });
 });
 
 app.get("/admin/login", (req, res) => {
@@ -201,16 +182,15 @@ app.post("/admin-login", async (req, res) => {
 
     req.session.user = user;
 
-    if (user.username != "admin") {
+    if (user.username !== "admin") {
         return res.send("Vous n'êtes pas administrateur !");
-    }
-    else {
+    } else {
         res.redirect("/admin/home");
     }
 });
 
 app.get("/admin/home", async (req, res) => {
-    if (!req.session.user) {
+    if (!req.session.user || req.session.user.username !== "admin") {
         return res.redirect("/login");
     }
 
@@ -218,16 +198,11 @@ app.get("/admin/home", async (req, res) => {
     const user = users.find(u => u.email === req.session.user.email);
     const totalUsers = users.length;
 
-    if (user.username != "admin") {
-        res.redirect("/login");
-        return res.send("Vous n'êtes pas administrateur !");
-    } else {
-        res.render("admin/home", { user, totalUsers });
-    }
+    res.render("admin/home", { user, totalUsers });
 });
 
 app.get("/admin/settings", async (req, res) => {
-    if (!req.session.user) {
+    if (!req.session.user || req.session.user.username !== "admin") {
         return res.redirect("/login");
     }
 
@@ -235,16 +210,11 @@ app.get("/admin/settings", async (req, res) => {
     const user = users.find(u => u.email === req.session.user.email);
     const totalUsers = users.length;
 
-    if (user.username != "admin") {
-        res.redirect("/login");
-        return res.send("Vous n'êtes pas administrateur !");
-    } else {
-        res.render("admin/settings", { user, totalUsers });
-    }
+    res.render("admin/settings", { user, totalUsers });
 });
 
 app.get("/admin/users-panel", async (req, res) => {
-    if (!req.session.user) {
+    if (!req.session.user || req.session.user.username !== "admin") {
         return res.redirect("/login");
     }
 
@@ -252,12 +222,79 @@ app.get("/admin/users-panel", async (req, res) => {
     const user = users.find(u => u.email === req.session.user.email);
     const totalUsers = users.length;
 
-    if (user.username != "admin") {
-        res.redirect("/admin/login");
-        return res.send("Vous n'êtes pas administrateur !");
-    } else {
-        res.render("admin/users-panel", { user, totalUsers, users });
+    res.render("admin/users-panel", { user, totalUsers, users, balance: user.balance });
+});
+
+app.get("/admin/user/balance", async (req, res) => {
+    if (!req.session.user || req.session.user.username !== "admin") {
+        return res.redirect("/login");
     }
+
+    const users = await loadUsers();
+    const user = users.find(u => u.email === req.session.user.email);
+    const totalUsers = users.length;
+
+    const email = req.query.email;
+    const targetUser = users.find(u => u.email === email);
+
+    if (!targetUser) {
+        return res.send("Utilisateur introuvable.");
+    }
+
+    res.render("admin/user/balance", { user, totalUsers, targetUser, email, userBalance : user.balance });
+});
+
+app.post("/changeBalance", async (req, res) => {
+    const { balance } = req.body;
+    const email = req.query.email;
+    
+    if (!email || balance === undefined) {
+        return res.send("Tous les champs sont requis !");
+    }
+
+    const users = await loadUsers();
+    const user = users.find(u => u.email === email);
+
+    if (!user) {
+        return res.send("Utilisateur non trouvé !");
+    }
+
+    db.run(
+        "UPDATE users SET balance = ? WHERE email = ?",
+        [balance, email],
+        (err) => {
+            if (err) {
+                console.error("Erreur lors de la mise à jour du solde :", err);
+                return res.send("Erreur lors de la mise à jour du solde.");
+            }
+            res.redirect("/admin/home");
+        }
+    );
+});
+
+app.post("/user/update-balance", async (req, res) => {
+    const { email, amount } = req.body;
+
+    if (!amount || isNaN(amount)) {
+        return res.send("Montant invalide !");
+    }
+
+    const users = await loadUsers();
+    const user = users.find(u => u.email === email);
+
+    if (!user) {
+        return res.send("Utilisateur non trouvé.");
+    }
+
+    const newBalance = user.balance + parseFloat(amount);
+
+    db.run("UPDATE users SET balance = ? WHERE email = ?", [newBalance, email], (err) => {
+        if (err) {
+            console.error("Erreur lors de la mise à jour du solde :", err);
+            return res.send("Erreur lors de la mise à jour du solde.");
+        }
+        res.redirect("/home");
+    });
 });
 
 app.listen(PORT, async () => {

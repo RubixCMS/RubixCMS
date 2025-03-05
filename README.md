@@ -39,6 +39,7 @@ official discord server: [here](https://discord.gg/JWZFuDtNtp)
   - [ ] Deposits and withdrawals
   - [ ] Transaction tracking
   - [ ] Balance notifications
+  - [ ] Balance / Crédit
 - [ ] User profile modification
   - [ ] Add profile photo
   - [ ] Modify email address
