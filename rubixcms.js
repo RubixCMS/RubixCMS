@@ -10,7 +10,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const config = require("./config.json");
 const DB_PATH = path.join(__dirname, "users.db");
-const PRODUCT_PATH = path.join(__dirname, "data", "products.json");
+const PRODUCT_PATH = path.join(__dirname, "products.json");
 
 const db = new sqlite3.Database(DB_PATH);
 
