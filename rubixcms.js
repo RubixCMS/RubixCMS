@@ -46,7 +46,7 @@ async function loadUsers() {
 
 app.get("/", async (req, res) => {
   const users = await loadUsers();
-  res.render("index", { users });
+  res.render("auth/register", { users });
 });
 
 app.post("/addUser", async (req, res) => {
@@ -109,7 +109,7 @@ app.post("/deleteUser", (req, res) => {
 });
 
 app.get("/login", (req, res) => {
-  res.render("login");
+  res.render("auth/login");
 });
 
 app.post("/login", async (req, res) => {
