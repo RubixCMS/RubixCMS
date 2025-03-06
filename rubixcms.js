@@ -427,7 +427,7 @@ app.post("/product-add", async (req, res) => {
 
 app.listen(PORT, async () => {
   console.log(
-    `RubixCMS a démarré sur le port ${PORT} pour l'hébergeur ${config.Host}`
+    `RubixCMS a démarré sur le port http://localhost:${PORT} pour l'hébergeur ${config.Host}`
   );
 
   await new Promise((resolve, reject) => {
