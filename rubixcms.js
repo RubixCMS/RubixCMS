@@ -387,7 +387,7 @@ app.post("/product-add", async (req, res) => {
     products.push(newProduct);
 
     try {
-        fs.writeFileSync(__dirname, JSON.stringify(products, null, 4), "utf8");
+        fs.writeFileSync(PRODUCT_PATH, JSON.stringify(products, null, 4), "utf8");
         res.redirect("/admin/home");
     } catch (error) {
         return res.status(500).send("Erreur lors de l'écriture du fichier JSON");
