@@ -1,24 +1,8 @@
-<!DOCTYPE html>
-<html lang="fr">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Registration - <%= host %></title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-      :root {
-        --dark-violet: #1a1a1d;
-        --light-violet: #252525;
-        --accent: #8a2be2;
-        --hover-accent: #6a1cb5;
-        --text-color: #e5e5e5;
-        --border-color: #3d3d3d;
-      }
-    </style>
-  </head>
+<%- include('../components/header', { title: 'Register' }) %>
   <body
     class="bg-[var(--dark-violet)] text-[var(--text-color)] flex items-center justify-center min-h-screen p-4 relative"
   >
+
     <a
       href="/admin/login"
       class="absolute top-4 right-4 bg-[var(--accent)] p-3 rounded-full shadow-lg hover:bg-[var(--hover-accent)] transition duration-300"

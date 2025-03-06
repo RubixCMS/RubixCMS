@@ -1,24 +1,8 @@
-<!DOCTYPE html>
-<html lang="fr">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Admin Home - RubixCMS</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-      :root {
-        --dark-violet: #1a1a1d;
-        --light-violet: #252525;
-        --accent: #8a2be2;
-        --hover-accent: #6a1cb5;
-        --text-color: #e5e5e5;
-        --border-color: #3d3d3d;
-      }
-    </style>
-  </head>
+<%- include('../components/header', { title: 'Admin Home' }) %>
   <body
     class="bg-[var(--dark-violet)] text-[var(--text-color)] flex flex-col min-h-screen"
   >
+
     <!-- Header -->
     <header
       class="bg-[var(--light-violet)] w-full shadow-md py-4 px-6 flex justify-between items-center"
@@ -65,14 +49,4 @@
       </div>
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-[var(--light-violet)] w-full py-4 text-center shadow-md">
-      <p class="text-sm">
-        © 2025 RubixCMS bêta 1.0.0. All rights reserved.
-        <a href="#" class="text-[var(--accent)] hover:underline"
-          >Terms of use</a
-        >
-      </p>
-    </footer>
-  </body>
-</html>
+<%- include('../components/footer') %>

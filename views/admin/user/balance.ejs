@@ -1,24 +1,8 @@
-<!DOCTYPE html>
-<html lang="fr">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Admin Settings user - RubixCMS</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-  </head>
-  <style>
-    :root {
-      --dark-violet: #1a1a1d;
-      --light-violet: #252525;
-      --accent: #8a2be2;
-      --hover-accent: #6a1cb5;
-      --text-color: #e5e5e5;
-      --border-color: #3d3d3d;
-    }
-  </style>
+<%- include('../../components/header', { title: 'Admin User Balance' }) %>
   <body
     class="bg-[var(--dark-violet)] text-[var(--text-color)] flex flex-col items-center justify-start p-6"
   >
+
     <h1 class="text-4xl font-bold text-[var(--accent)] mb-6">
       Settings user: <%= email %>
     </h1>
