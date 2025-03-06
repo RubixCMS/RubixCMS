@@ -1,4 +1,4 @@
-LICENSE
-/node_modules
+node_modules
 users.db
-/product
+package-lock.json
+.vscode

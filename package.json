@@ -1,4 +1,19 @@
 {
+  "name": "rubixcms",
+  "version": "1.0.0",
+  "description": "A free CMS project created by two French people\r official discord server: [here](https://discord.gg/JWZFuDtNtp)",
+  "main": "rubixcms.js",
+  "scripts": {
+    "start:dev": "nodemon rubixcms.js",
+    "dev": "nodemon rubixcms.js",
+    "start": "node rubixcms.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/achul123/RubixCMS.git"
+  },
+  "author": "RubixCMS",
+  "license": "MIT",
   "dependencies": {
     "bcrypt": "^5.1.1",
     "ejs": "^3.1.10",
@@ -8,5 +23,8 @@
     "path": "^0.12.7",
     "sqlite3": "^5.1.7",
     "validator": "^13.12.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
   }
 }

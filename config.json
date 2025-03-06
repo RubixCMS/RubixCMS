@@ -1,4 +1,4 @@
 {
-    "Host": "RubixCMS",
-    "secret": "your-secret-key"
+  "Host": "RubixCMS",
+  "secret": "your-secret-key"
 }

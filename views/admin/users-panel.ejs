@@ -1,87 +1,84 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Users Panel - RubixCMS</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    :root {
-      --dark-violet: #1a1a1d;
-      --light-violet: #252525;
-      --accent: #8a2be2;
-      --hover-accent: #6a1cb5;
-      --text-color: #e5e5e5;
-      --border-color: #3d3d3d;
-    }
-  </style>
-  <script>
-    function editUser(username) {
-      const form = document.getElementById('edit-form-' + username);
-      form.action = '/admin/user/balance?user=' + encodeURIComponent(username);
-      form.submit()
-    }
-  </script>
-</head>
-<body class="bg-[var(--dark-violet)] text-[var(--text-color)] flex flex-col min-h-screen">
+<%- include('../components/head', { title: 'Admin Users Panel' }) %>
+  <body
+    class="bg-[var(--dark-violet)] text-[var(--text-color)] flex flex-col min-h-screen"
+  >
+    <%- include('../components/header', { admin: true }) %>
 
-  <!-- Header -->
-  <header class="bg-[var(--light-violet)] w-full shadow-md py-4 px-6 flex justify-between items-center">
-    <h1 class="text-2xl font-bold text-[var(--accent)]">RubixCMS</h1>
-    <nav>
-      <a href="/admin/home" class="mx-4 hover:text-[var(--accent)]">Home</a>
-      <a href="/admin/users-panel" class="mx-4 hover:text-[var(--accent)]">Users</a>
-      <a href="/admin/settings" class="mx-4 hover:text-[var(--accent)]">Settings</a>
-      <a href="#" class="mx-4 hover:text-[var(--accent)]">Staff</a>
-    </nav>
-    <a href="/logout" class="bg-[var(--accent)] text-white px-4 py-2 rounded-md hover:bg-[var(--hover-accent)] transition duration-300">
-      Logout
-    </a>
-  </header>
+    <main
+      class="flex-grow flex flex-col items-center justify-start text-center p-6"
+    >
+      <h2 class="text-4xl font-bold text-[var(--accent)]">Users List</h2>
+      <br />
+      <div
+        class="bg-[var(--light-violet)] p-6 rounded-lg shadow-md w-full max-w-4xl"
+      >
+        <h3 class="text-2xl font-bold text-[var(--accent)] mb-4">Users</h3>
+        <table
+          class="w-full border-collapse border border-[var(--border-color)] text-center"
+        >
+          <thead>
+            <tr class="bg-[var(--light-violet)] text-[var(--accent)]">
+              <th class="border border-[var(--border-color)] p-3">Email</th>
+              <th class="border border-[var(--border-color)] p-3">Username</th>
+              <th class="border border-[var(--border-color)] p-3">Phone</th>
+              <th class="border border-[var(--border-color)] p-3">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% users.forEach(user => { %>
+            <tr class="bg-[var(--dark-violet)] text-[var(--text-color)]">
+              <td class="border border-[var(--border-color)] p-3">
+                <%= user.email %>
+              </td>
+              <td class="border border-[var(--border-color)] p-3">
+                <%= user.username %>
+              </td>
+              <td class="border border-[var(--border-color)] p-3">
+                <%= user.phone %>
+              </td>
+              <td class="border border-[var(--border-color)] p-3">
+                <form
+                  action="/deleteUser"
+                  method="POST"
+                  onsubmit="return confirm('Are you sure you want to delete this user ?');"
+                >
+                  <input type="hidden" name="email" value="<%= user.email %>" />
+                  <button
+                    type="submit"
+                    class="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-800"
+                  >
+                    Delete
+                  </button>
+                </form>
+                <br />
+                <form
+                  id="edit-form-<%= user.username %>"
+                  action="/admin/user/balance"
+                  method="GET"
+                >
+                  <input type="hidden" name="email" value="<%= user.email %>" />
+                  <button
+                    type="button"
+                    class="bg-violet-600 text-white px-3 py-1 rounded hover:bg-violet-900"
+                    onclick="editUser('<%= user.username %>')"
+                  >
+                    Edit
+                  </button>
+                </form>
+              </td>
+            </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </main>
 
-  <!-- Contenu principal -->
-  <main class="flex-grow flex flex-col items-center justify-start text-center p-6">
-    <h2 class="text-4xl font-bold text-[var(--accent)]">Users List</h2>
-    <br>
-    <div class="bg-[var(--light-violet)] p-6 rounded-lg shadow-md w-full max-w-4xl">
-      <h3 class="text-2xl font-bold text-[var(--accent)] mb-4">Users</h3>
-      <table class="w-full border-collapse border border-[var(--border-color)] text-center">
-        <thead>
-          <tr class="bg-[var(--light-violet)] text-[var(--accent)]">
-            <th class="border border-[var(--border-color)] p-3">Email</th>
-            <th class="border border-[var(--border-color)] p-3">Username</th>
-            <th class="border border-[var(--border-color)] p-3">Phone</th>
-            <th class="border border-[var(--border-color)] p-3">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% users.forEach(user => { %>
-          <tr class="bg-[var(--dark-violet)] text-[var(--text-color)]">
-            <td class="border border-[var(--border-color)] p-3"><%= user.email %></td>
-            <td class="border border-[var(--border-color)] p-3"><%= user.username %></td>
-            <td class="border border-[var(--border-color)] p-3"><%= user.phone %></td>
-            <td class="border border-[var(--border-color)] p-3">
-              <form action="/deleteUser" method="POST" onsubmit="return confirm('Are you sure you want to delete this user ?');">
-                <input type="hidden" name="email" value="<%= user.email %>">
-                <button type="submit" class="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-800">Delete</button>
-              </form> 
-              <br>
-              <form id="edit-form-<%= user.username %>" action="/admin/user/balance" method="GET">
-                <input type="hidden" name="email" value="<%= user.email %>">
-                <button type="button" class="bg-violet-600 text-white px-3 py-1 rounded hover:bg-violet-900" onclick="editUser('<%= user.username %>')">Edit</button>
-              </form> 
-            </td>
-          </tr>
-          <% }) %>
-        </tbody>
-      </table>
-    </div>
-  </main>
-
-  <!-- Footer -->
-  <footer class="bg-[var(--light-violet)] w-full py-4 text-center shadow-md">
-    <p class="text-sm">© 2025 RubixCMS bêta 1.0.0. All rights reserved. <a href="#" class="text-[var(--accent)] hover:underline">Terms of use</a></p>
-  </footer>
-
-</body>
-</html>
+<%- include('../components/footer') %>
+<script>
+  function editUser(username) {
+    const form = document.getElementById("edit-form-" + username);
+    form.action =
+      "/admin/user/balance?user=" + encodeURIComponent(username);
+    form.submit();
+  }
+</script>
