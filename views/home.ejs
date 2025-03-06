@@ -3,56 +3,36 @@
     class="bg-[var(--dark-violet)] text-[var(--text-color)] flex flex-col min-h-screen"
   >
 
-    <!-- Header -->
-    <header
-      class="bg-[var(--light-violet)] w-full shadow-md py-4 px-6 flex justify-between items-center"
-    >
-      <h1 class="text-2xl font-bold text-[var(--accent)]"><%= host %></h1>
-      <nav>
-        <a href="#" class="mx-4 hover:text-[var(--accent)]">Home</a>
-        <a href="/service" class="mx-4 hover:text-[var(--accent)]">Service</a>
-        <a href="active-service" class="mx-4 hover:text-[var(--accent)]"
-          >Service Active</a
-        >
-        <a href="settings" class="mx-4 hover:text-[var(--accent)]">Settings</a>
-      </nav>
+  <%- include('./components/header') %>
+
+  <main
+    class="flex-grow flex flex-col items-center justify-center text-center p-6"
+  >
+    <h2 class="text-4xl font-bold text-[var(--accent)]">
+      Welcome, <%= user.username %>!
+    </h2>
+    <br />
+    <p class="text-lg max-w-2xl">
+      You are connected to
+      <span class="text-[var(--accent)]"><%= host %></span>. Explore your
+      services and manage your preferences with ease.
+    </p>
+
+    <div class="mt-8 flex space-x-4">
       <a
-        href="/logout"
-        class="bg-[var(--accent)] text-white px-4 py-2 rounded-md hover:bg-[var(--hover-accent)] transition duration-300"
+        href="#"
+        class="bg-[var(--accent)] text-white px-6 py-3 rounded-md hover:bg-[var(--hover-accent)] transition duration-300 shadow-lg"
       >
-        Logout
+        My services
       </a>
-    </header>
-
-    <!-- Contenu principal -->
-    <main
-      class="flex-grow flex flex-col items-center justify-center text-center p-6"
-    >
-      <h2 class="text-4xl font-bold text-[var(--accent)]">
-        Welcome, <%= user.username %>!
-      </h2>
-      <br />
-      <p class="text-lg max-w-2xl">
-        You are connected to
-        <span class="text-[var(--accent)]"><%= host %></span>. Explore your
-        services and manage your preferences with ease.
-      </p>
-
-      <div class="mt-8 flex space-x-4">
-        <a
-          href="#"
-          class="bg-[var(--accent)] text-white px-6 py-3 rounded-md hover:bg-[var(--hover-accent)] transition duration-300 shadow-lg"
-        >
-          My services
-        </a>
-        <a
-          href="#"
-          class="bg-[var(--light-violet)] text-[var(--text-color)] border border-[var(--accent)] px-6 py-3 rounded-md hover:bg-[var(--hover-accent)] hover:text-white transition duration-300 shadow-lg"
-        >
-          Edit my profile
-        </a>
-      </div>
-      <br />
-    </main>
+      <a
+        href="#"
+        class="bg-[var(--light-violet)] text-[var(--text-color)] border border-[var(--accent)] px-6 py-3 rounded-md hover:bg-[var(--hover-accent)] hover:text-white transition duration-300 shadow-lg"
+      >
+        Edit my profile
+      </a>
+    </div>
+    <br />
+  </main>
 
 <%- include('./components/footer') %>
