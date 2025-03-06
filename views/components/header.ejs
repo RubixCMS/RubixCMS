@@ -1,18 +1,19 @@
-<!DOCTYPE html>
-<html lang="fr">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><%= title %> - <%= host %></title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-      :root {
-        --dark-violet: #1a1a1d;
-        --light-violet: #252525;
-        --accent: #8a2be2;
-        --hover-accent: #6a1cb5;
-        --text-color: #e5e5e5;
-        --border-color: #3d3d3d;
-      }
-    </style>
-  </head>
+<header
+class="bg-[var(--light-violet)] w-full shadow-md py-4 px-6 flex justify-between items-center"
+>
+<h1 class="text-2xl font-bold text-[var(--accent)]"><%= host %></h1>
+<nav>
+  <a href="/home" class="mx-4 hover:text-[var(--accent)]">Home</a>
+  <a href="/service" class="mx-4 hover:text-[var(--accent)]">Service</a>
+  <a href="/active-service" class="mx-4 hover:text-[var(--accent)]"
+    >Service Active</a
+  >
+  <a href="/settings" class="mx-4 hover:text-[var(--accent)]">Settings</a>
+</nav>
+<a
+  href="/logout"
+  class="bg-[var(--accent)] text-white px-4 py-2 rounded-md hover:bg-[var(--hover-accent)] transition duration-300"
+>
+  Logout
+</a>
+</header>
