@@ -6,18 +6,21 @@ official discord server: [here](https://discord.gg/JWZFuDtNtp)
 ### Install dependency
 ```npm install```
 
+### Run RubixCMS
+```npm run start```
+
 ## Todo List - RubixCMS
 
 ### Basic features
 - [x] Create an account system
-- [ ] Create FrontEnd (Customer Dashboard, Admin Dashboard, + CSS)
+- [ ] Create Frontend (Customer Dashboard, Admin Dashboard, + CSS)
   - [x] User home page
   - [ ] Service management interface
   - [ ] User management interface
   - [x] Connection interface
   - [x] Account creation interface
   - [ ] Admin interface
-- [ ] Create BackEnd
+- [ ] Create Backend
   - [ ] Databases service
   - [x] Databases user
   - [ ] RESTful API
@@ -27,7 +30,7 @@ official discord server: [here](https://discord.gg/JWZFuDtNtp)
 - [ ] Add Pterodactyl API
   - [ ] Automatic server creation on payment
   - [ ] Automatic server suspension on service expiry
-  - [ ] Server supressions after 1 week of suspended service
+  - [ ] Server suppressions after 1 week of suspended service
 - [ ] Integrate the PayPal payment system
   - [ ] PayPal subscription management
   - [ ] Payment history
@@ -39,7 +42,7 @@ official discord server: [here](https://discord.gg/JWZFuDtNtp)
   - [ ] Deposits and withdrawals
   - [ ] Transaction tracking
   - [ ] Balance notifications
-  - [x] Balance / Crédit
+  - [x] Balance / Credit
 - [ ] User profile modification
   - [ ] Add profile photo
   - [ ] Modify email address
@@ -49,7 +52,7 @@ official discord server: [here](https://discord.gg/JWZFuDtNtp)
   - [ ] Protection against anonymous users
   - [ ] Blacklist of known VPNs
 - [ ] Anti-double-counting system
-  - [ ] Surveillance des inscriptions avec des méthodes de vérification supplémentaires
+  - [ ] Registration monitoring with additional verification methods
   - [ ] Verification via unique phone number or email
   - [ ] Tools for auditing suspicious accounts
 - [ ] Add a Webhook Discord
