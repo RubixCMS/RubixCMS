@@ -1,63 +1,83 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Active Service - <%= host %></title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    :root {
-      --dark-violet: #1a1a1d;
-      --light-violet: #252525;
-      --accent: #8a2be2;
-      --hover-accent: #6a1cb5;
-      --text-color: #e5e5e5;
-      --border-color: #3d3d3d;
-    }
-  </style>
-</head>
-<body class="bg-[var(--dark-violet)] text-[var(--text-color)] flex flex-col min-h-screen">
-
-  <!-- Header -->
-  <header class="bg-[var(--light-violet)] w-full shadow-md py-4 px-6 flex justify-between items-center">
-    <h1 class="text-2xl font-bold text-[var(--accent)]"><%= host %></h1>
-    <nav>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Active Service - <%= host %></title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      :root {
+        --dark-violet: #1a1a1d;
+        --light-violet: #252525;
+        --accent: #8a2be2;
+        --hover-accent: #6a1cb5;
+        --text-color: #e5e5e5;
+        --border-color: #3d3d3d;
+      }
+    </style>
+  </head>
+  <body
+    class="bg-[var(--dark-violet)] text-[var(--text-color)] flex flex-col min-h-screen"
+  >
+    <!-- Header -->
+    <header
+      class="bg-[var(--light-violet)] w-full shadow-md py-4 px-6 flex justify-between items-center"
+    >
+      <h1 class="text-2xl font-bold text-[var(--accent)]"><%= host %></h1>
+      <nav>
         <a href="home" class="mx-4 hover:text-[var(--accent)]">Home</a>
         <a href="service" class="mx-4 hover:text-[var(--accent)]">Service</a>
         <a href="#" class="mx-4 hover:text-[var(--accent)]">Service Active</a>
         <a href="settings" class="mx-4 hover:text-[var(--accent)]">Settings</a>
-        </nav>
-    <a href="/logout" class="bg-[var(--accent)] text-white px-4 py-2 rounded-md hover:bg-[var(--hover-accent)] transition duration-300">
-      Logout
-    </a>
-  </header>
+      </nav>
+      <a
+        href="/logout"
+        class="bg-[var(--accent)] text-white px-4 py-2 rounded-md hover:bg-[var(--hover-accent)] transition duration-300"
+      >
+        Logout
+      </a>
+    </header>
 
-<!-- Contenu principal -->
-<main class="flex-grow flex flex-col items-center justify-start text-center p-6">
-  <h2 class="text-4xl font-bold text-[var(--accent)]">Our active service !</h2>
-  <br>
+    <!-- Contenu principal -->
+    <main
+      class="flex-grow flex flex-col items-center justify-start text-center p-6"
+    >
+      <h2 class="text-4xl font-bold text-[var(--accent)]">
+        Our active service !
+      </h2>
+      <br />
 
-<div class="flex justify-between gap-4">
-    <!-- Money -->
-    <div class="bg-[var(--light-violet)] p-6 rounded-lg shadow-md flex-grow flex-shrink">
-      <h3 class="text-2xl font-bold text-[var(--accent)]">Your balance</h3>
-      <p class="text-xl mt-2"><%= userBalance %><span class="text-[var(--accent)]"> €</span></p>
-    </div>
-  
-    <!-- Service -->
-    <div class="bg-[var(--light-violet)] p-6 rounded-lg shadow-md flex-grow flex-shrink">
-      <h3 class="text-2xl font-bold text-[var(--accent)]">Your service</h3>
-      <p class="text-xl mt-2">0<span class="text-[var(--accent)]"> Service</span></p>
-    </div>
-  </div>    
+      <div class="flex justify-between gap-4">
+        <!-- Money -->
+        <div
+          class="bg-[var(--light-violet)] p-6 rounded-lg shadow-md flex-grow flex-shrink"
+        >
+          <h3 class="text-2xl font-bold text-[var(--accent)]">Your balance</h3>
+          <p class="text-xl mt-2">
+            <%= userBalance %><span class="text-[var(--accent)]"> €</span>
+          </p>
+        </div>
 
-</main>
+        <!-- Service -->
+        <div
+          class="bg-[var(--light-violet)] p-6 rounded-lg shadow-md flex-grow flex-shrink"
+        >
+          <h3 class="text-2xl font-bold text-[var(--accent)]">Your service</h3>
+          <p class="text-xl mt-2">
+            0<span class="text-[var(--accent)]"> Service</span>
+          </p>
+        </div>
+      </div>
+    </main>
 
-
-
-  <!-- Footer -->
-<footer class="bg-[var(--light-violet)] w-full py-4 text-center shadow-md">
-  <p class="text-sm">© 2025 <%= host %>. All rights reserved. <a href="#" class="text-[var(--accent)] hover:underline">Terms of use</a></p>
-</footer>
-
-</body>
+    <!-- Footer -->
+    <footer class="bg-[var(--light-violet)] w-full py-4 text-center shadow-md">
+      <p class="text-sm">
+        © 2025 <%= host %>. All rights reserved.
+        <a href="#" class="text-[var(--accent)] hover:underline"
+          >Terms of use</a
+        >
+      </p>
+    </footer>
+  </body>
+</html>

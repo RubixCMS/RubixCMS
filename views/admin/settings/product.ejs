@@ -1,84 +1,139 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Product - Admin - Settings - RubixCMS</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    :root {
-      --dark-violet: #1a1a1d;
-      --light-violet: #252525;
-      --accent: #8a2be2;
-      --hover-accent: #6a1cb5;
-      --text-color: #e5e5e5;
-      --border-color: #3d3d3d;
-    }
-  </style>
-</head>
-<body class="bg-[var(--dark-violet)] text-[var(--text-color)] flex flex-col min-h-screen">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Product - Admin - Settings - RubixCMS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      :root {
+        --dark-violet: #1a1a1d;
+        --light-violet: #252525;
+        --accent: #8a2be2;
+        --hover-accent: #6a1cb5;
+        --text-color: #e5e5e5;
+        --border-color: #3d3d3d;
+      }
+    </style>
+  </head>
+  <body
+    class="bg-[var(--dark-violet)] text-[var(--text-color)] flex flex-col min-h-screen"
+  >
+    <!-- Header -->
+    <header
+      class="bg-[var(--light-violet)] w-full shadow-md py-4 px-6 flex justify-between items-center"
+    >
+      <h1 class="text-2xl font-bold text-[var(--accent)]">RubixCMS</h1>
+      <nav>
+        <a href="/admin/home" class="mx-4 hover:text-[var(--accent)]">Home</a>
+        <a href="/admin/users-panel" class="mx-4 hover:text-[var(--accent)]"
+          >Users</a
+        >
+        <a href="/admin/settings" class="mx-4 hover:text-[var(--accent)]"
+          >Settings</a
+        >
+        <a href="#" class="mx-4 hover:text-[var(--accent)]">Staff</a>
+      </nav>
+      <a
+        href="/logout"
+        class="bg-[var(--accent)] text-white px-4 py-2 rounded-md hover:bg-[var(--hover-accent)] transition duration-300"
+      >
+        Logout
+      </a>
+    </header>
 
-  <!-- Header -->
-  <header class="bg-[var(--light-violet)] w-full shadow-md py-4 px-6 flex justify-between items-center">
-    <h1 class="text-2xl font-bold text-[var(--accent)]">RubixCMS</h1>
-    <nav>
-      <a href="/admin/home" class="mx-4 hover:text-[var(--accent)]">Home</a>
-      <a href="/admin/users-panel" class="mx-4 hover:text-[var(--accent)]">Users</a>
-      <a href="/admin/settings" class="mx-4 hover:text-[var(--accent)]">Settings</a>
-      <a href="#" class="mx-4 hover:text-[var(--accent)]">Staff</a>
-    </nav>
-    <a href="/logout" class="bg-[var(--accent)] text-white px-4 py-2 rounded-md hover:bg-[var(--hover-accent)] transition duration-300">
-      Logout
-    </a>
-  </header>
+    <!-- Main Content -->
 
-<!-- Main Content -->
-
-
-<main class="flex-grow flex flex-row justify-between p-6">
-
-  <!-- Liste des Produits -->
-  <div class="w-1/2 text-left">
-    <h1 class="text-2xl font-bold mb-4">Liste des Produits</h1> 
-    <% products.forEach(product => { %>
-      <div class="border-t-4 border-violet-800 p-4">
-        <h2 class="text-xl font-semibold"><%= product.name %></h2>
-        <p class="text-withe-600 font-bold"><%= product.description %></p>
-        <p class="price font-bold">Prix : <%= product.price %>€</p>
+    <main class="flex-grow flex flex-row justify-between p-6">
+      <!-- Liste des Produits -->
+      <div class="w-1/2 text-left">
+        <h1 class="text-2xl font-bold mb-4">Liste des Produits</h1>
+        <% products.forEach(product => { %>
+        <div class="border-t-4 border-violet-800 p-4">
+          <h2 class="text-xl font-semibold"><%= product.name %></h2>
+          <p class="text-withe-600 font-bold"><%= product.description %></p>
+          <p class="price font-bold">Prix : <%= product.price %>€</p>
+        </div>
+        <% }); %>
       </div>
-    <% }); %>
-  </div>
 
-  <!-- Formulaire de création de produit -->
-  <div class="bg-[var(--light-violet)] p-8 rounded-lg shadow-2xl w-full max-w-md border border-[var(--border-color)]">
-    <h2 class="text-3xl font-bold mb-6 text-center text-[var(--accent)]">Créer un produit</h2>
-    <form action="/product-add" method="POST">
-      <input type="text" id="product_name" name="product_name" class="border border-[var(--border-color)] p-3 w-full rounded-md bg-[var(--dark-violet)] text-[var(--text-color)] focus:ring-2 focus:ring-[var(--accent)] focus:outline-none" required placeholder="Le nom de votre produit"/>
-      <br><br>
-      <input type="text" id="product_description" name="product_description" class="border border-[var(--border-color)] p-3 w-full rounded-md bg-[var(--dark-violet)] text-[var(--text-color)] focus:ring-2 focus:ring-[var(--accent)] focus:outline-none" required placeholder="La description de votre produit"/>
-      <br><br>
-      <input type="text" id="product_category" name="product_category" class="border border-[var(--border-color)] p-3 w-full rounded-md bg-[var(--dark-violet)] text-[var(--text-color)] focus:ring-2 focus:ring-[var(--accent)] focus:outline-none" required placeholder="La catégorie de votre produit"/>
-      <br><br>
-      <input type="number" id="product_price" name="product_price" class="border border-[var(--border-color)] p-3 w-full rounded-md bg-[var(--dark-violet)] text-[var(--text-color)] focus:ring-2 focus:ring-[var(--accent)] focus:outline-none" required step="0.01" min="0" placeholder="Le prix de votre produit"/>
-      <br><br>
-      <select id="product_server" name="product_node" class="border border-[var(--border-color)] p-3 w-full rounded-md bg-[var(--dark-violet)] text-[var(--text-color)] focus:ring-2 focus:ring-[var(--accent)] focus:outline-none" required>
-        <option value="" disabled selected>Choisissez une node</option>
-         <!--Faire plus tard pouvoir selectionné avec par exemple node pterodactyl-->
-        <option value="server1">Node1</option>
-        <option value="server2">Node2</option>
-        <option value="server3">Node3</option>
-      </select>
-            <br><br>
-      <button type="submit" class="bg-[var(--accent)] text-white p-3 w-full rounded-md hover:bg-[var(--hover-accent)] transition duration-300 focus:ring-2 focus:ring-[var(--accent)] shadow-lg">Créer le produit</button>
-    </form>
-  </div>
+      <!-- Formulaire de création de produit -->
+      <div
+        class="bg-[var(--light-violet)] p-8 rounded-lg shadow-2xl w-full max-w-md border border-[var(--border-color)]"
+      >
+        <h2 class="text-3xl font-bold mb-6 text-center text-[var(--accent)]">
+          Créer un produit
+        </h2>
+        <form action="/product-add" method="POST">
+          <input
+            type="text"
+            id="product_name"
+            name="product_name"
+            class="border border-[var(--border-color)] p-3 w-full rounded-md bg-[var(--dark-violet)] text-[var(--text-color)] focus:ring-2 focus:ring-[var(--accent)] focus:outline-none"
+            required
+            placeholder="Le nom de votre produit"
+          />
+          <br /><br />
+          <input
+            type="text"
+            id="product_description"
+            name="product_description"
+            class="border border-[var(--border-color)] p-3 w-full rounded-md bg-[var(--dark-violet)] text-[var(--text-color)] focus:ring-2 focus:ring-[var(--accent)] focus:outline-none"
+            required
+            placeholder="La description de votre produit"
+          />
+          <br /><br />
+          <input
+            type="text"
+            id="product_category"
+            name="product_category"
+            class="border border-[var(--border-color)] p-3 w-full rounded-md bg-[var(--dark-violet)] text-[var(--text-color)] focus:ring-2 focus:ring-[var(--accent)] focus:outline-none"
+            required
+            placeholder="La catégorie de votre produit"
+          />
+          <br /><br />
+          <input
+            type="number"
+            id="product_price"
+            name="product_price"
+            class="border border-[var(--border-color)] p-3 w-full rounded-md bg-[var(--dark-violet)] text-[var(--text-color)] focus:ring-2 focus:ring-[var(--accent)] focus:outline-none"
+            required
+            step="0.01"
+            min="0"
+            placeholder="Le prix de votre produit"
+          />
+          <br /><br />
+          <select
+            id="product_server"
+            name="product_node"
+            class="border border-[var(--border-color)] p-3 w-full rounded-md bg-[var(--dark-violet)] text-[var(--text-color)] focus:ring-2 focus:ring-[var(--accent)] focus:outline-none"
+            required
+          >
+            <option value="" disabled selected>Choisissez une node</option>
+            <!--Faire plus tard pouvoir selectionné avec par exemple node pterodactyl-->
+            <option value="server1">Node1</option>
+            <option value="server2">Node2</option>
+            <option value="server3">Node3</option>
+          </select>
+          <br /><br />
+          <button
+            type="submit"
+            class="bg-[var(--accent)] text-white p-3 w-full rounded-md hover:bg-[var(--hover-accent)] transition duration-300 focus:ring-2 focus:ring-[var(--accent)] shadow-lg"
+          >
+            Créer le produit
+          </button>
+        </form>
+      </div>
+    </main>
 
-</main>
-
-  <!-- Footer -->
-  <footer class="bg-[var(--light-violet)] w-full py-4 text-center shadow-md">
-    <p class="text-sm">© 2025 RubixCMS bêta 1.0.0. All rights reserved. <a href="#" class="text-[var(--accent)] hover:underline">Terms of use</a></p>
-  </footer>
-
-</body>
+    <!-- Footer -->
+    <footer class="bg-[var(--light-violet)] w-full py-4 text-center shadow-md">
+      <p class="text-sm">
+        © 2025 RubixCMS bêta 1.0.0. All rights reserved.
+        <a href="#" class="text-[var(--accent)] hover:underline"
+          >Terms of use</a
+        >
+      </p>
+    </footer>
+  </body>
 </html>
