@@ -406,6 +406,7 @@ app.post("/user/update-balance", async (req, res) => {
   );
 });
 
+//ajoute category 
 app.post("/product-add", async (req, res) => {
   const product_name = req.body.product_name;
   const product_description = req.body.product_description;
