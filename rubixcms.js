@@ -434,7 +434,7 @@ app.listen(PORT, async () => {
 
   await new Promise((resolve, reject) => {
     db.run(
-      "CREATE TABLE IF NOT EXISTS users (email TEXT PRIMARY KEY, password TEXT, phone TEXT, username TEXT)",
+      "CREATE TABLE IF NOT EXISTS users (email TEXT PRIMARY KEY, password TEXT, phone TEXT, username TEXT, balance REAL)",
       (err) => {
         if (err) {
           reject("Error creating table: " + err);
@@ -458,15 +458,17 @@ app.listen(PORT, async () => {
       password: hashedPassword,
       phone: "1234567890",
       username: "admin",
+      balance: 0,
     };
 
     db.run(
-      "INSERT INTO users (email, password, phone, username) VALUES (?, ?, ?, ?)",
+      "INSERT INTO users (email, password, phone, username, balance) VALUES (?, ?, ?, ?, ?)",
       [
         adminUser.email,
         adminUser.password,
         adminUser.phone,
         adminUser.username,
+        adminUser.balance,
       ],
       (err) => {
         if (err) {
@@ -478,3 +480,4 @@ app.listen(PORT, async () => {
     );
   }
 });
+
