@@ -10,5 +10,10 @@
     {
         "name": "pro",
         "price": "1"
+    },
+    {
+        "name": "test",
+        "description": "test",
+        "price": "254"
     }
 ]

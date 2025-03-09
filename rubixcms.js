@@ -165,28 +165,41 @@ app.get("/service", async (req, res) => {
     return res.send("Utilisateur introuvable.");
   }
 
-  res.render("service", { user });
+  fs.readFile(PRODUCT_PATH, "utf8", (err, data) => {
+    if (err) {
+      console.error("Erreur de lecture du fichier JSON des produits :", err);
+      return res.send("Erreur de lecture du fichier JSON des produits.");
+    }
+
+    const products = JSON.parse(data);
+    const categories = [...new Set(products.map(product => product.category))];
+    res.render("service", { user, products, categories });
+  });
 });
 
-app.get("/active-service", async (req, res) => {
+app.get("/service/category/:category", async (req, res) => {
   if (!req.session.user) {
     return res.redirect("/login");
   }
 
   const users = await loadUsers();
   const user = users.find((u) => u.email === req.session.user.email);
-  const email = user.email;
-  const targetUser = users.find((u) => u.email === email);
 
   if (!user) {
     return res.send("Utilisateur introuvable.");
   }
 
-  res.render("active-service", {
-    user,
-    users,
-    userBalance: targetUser.balance,
-    balance: user.balance,
+  const category = req.params.category;
+
+  fs.readFile(PRODUCT_PATH, "utf8", (err, data) => {
+    if (err) {
+      console.error("Erreur de lecture du fichier JSON des produits :", err);
+      return res.send("Erreur de lecture du fichier JSON des produits.");
+    }
+
+    const products = JSON.parse(data);
+    const filteredProducts = products.filter(product => product.category === category);
+    res.render("service-category", { user, products: filteredProducts, category });
   });
 });
 

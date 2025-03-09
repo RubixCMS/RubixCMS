@@ -1,19 +1,9 @@
-<%- include('./components/head', { title: 'Service' }) %>
+<%- include('./components/head', { title: 'Service - <%= category %>' }) %>
 <body class="bg-[var(--dark-violet)] text-[var(--text-color)] flex flex-col min-h-screen">
   <%- include('./components/header') %>
 
   <main class="flex-grow flex flex-col items-center justify-start text-center p-6">
-    <h2 class="text-4xl font-bold text-[var(--accent)]">Our products !</h2>
-
-    <!-- Liste des Catégories -->
-    <div class="w-1/2 text-left">
-      <h1 class="text-2xl font-bold mb-4">Catégories</h1>
-      <ul>
-        <% categories.forEach(category => { %>
-          <li><a href="/service/category/<%= category %>"><%= category %></a></li>
-        <% }); %>
-      </ul>
-    </div>
+    <h2 class="text-4xl font-bold text-[var(--accent)]">Catégorie: <%= category %></h2>
 
     <!-- Liste des Produits -->
     <div class="w-1/2 text-left">
