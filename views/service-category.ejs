@@ -1,4 +1,4 @@
-<%- include('./components/head', { title: 'Service - <%= category %>' }) %>
+<%- include('./components/head', { title: 'Service - ' + category }) %>
 <body class="bg-[var(--dark-violet)] text-[var(--text-color)] flex flex-col min-h-screen">
   <%- include('./components/header') %>
 
@@ -6,15 +6,17 @@
     <h2 class="text-4xl font-bold text-[var(--accent)]">Catégorie: <%= category %></h2>
 
     <!-- Liste des Produits -->
-    <div class="w-1/2 text-left">
-      <h1 class="text-2xl font-bold mb-4">Liste des Produits</h1>
-      <% products.forEach(product => { %>
-        <div class="border-t-4 border-violet-800 p-4">
-          <h2 class="text-xl font-semibold"><%= product.name %></h2>
-          <p class="text-withe-600 font-bold"><%= product.description %></p>
-          <p class="price font-bold">Prix : <%= product.price %>€</p>
-        </div>
-      <% }); %>
+    <div class="w-full max-w-3xl mx-auto">
+      <h1 class="text-3xl font-bold text-center mb-6 text-white">Liste des Produits</h1>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <% products.forEach(product => { %>
+          <div class="bg-light-violet-300 text-white p-6 rounded-2xl shadow-lg border border-violet-700">
+            <h2 class="text-xl font-semibold mb-2"><%= product.name %></h2>
+            <p class="text-gray-300 mb-2"><%- product.description.replace(/\n/g, '<br>') %></p>
+            <p class="text-lg font-bold">Prix : <%= product.price %>€</p>
+          </div>
+        <% }); %>
+      </div>
     </div>
   </main>
 

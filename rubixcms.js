@@ -411,6 +411,7 @@ app.post("/product-add", async (req, res) => {
   const product_name = req.body.product_name;
   const product_description = req.body.product_description;
   const product_price = req.body.product_price;
+  const product_category = req.body.product_category;
 
   if (!product_name || !product_description || !product_price) {
     return res.status(400).send("Tous les champs sont requis !");
@@ -430,6 +431,7 @@ app.post("/product-add", async (req, res) => {
     name: product_name,
     description: product_description,
     price: product_price,
+    category: product_category,
   };
   products.push(newProduct);
 

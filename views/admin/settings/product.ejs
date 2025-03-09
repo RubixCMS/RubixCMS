@@ -1,91 +1,88 @@
 <%- include('../../components/head', { title: 'Admin Product' }) %>
-  <body
-    class="bg-[var(--dark-violet)] text-[var(--text-color)] flex flex-col min-h-screen"
-  >
-
+<body class="bg-[var(--dark-violet)] text-[var(--text-color)] flex flex-col min-h-screen">
   <%- include('../../components/header', { admin: true }) %>
 
-    <main class="flex-grow flex flex-row justify-between p-6">
-      <!-- Liste des Produits -->
-      <div class="w-1/2 text-left">
-        <h1 class="text-2xl font-bold mb-4">Liste des Produits</h1>
-        <% products.forEach(product => { %>
+  <main class="flex-grow flex flex-row justify-between p-6">
+    <!-- Liste des Produits -->
+    <div class="w-1/2 text-left">
+      <h1 class="text-2xl font-bold mb-4">List of products</h1>
+      <% products.forEach(product => { %>
         <div class="border-t-4 border-violet-800 p-4">
-          <h2 class="text-xl font-semibold"><%= product.name %></h2>
-          <p class="text-withe-600 font-bold"><%= product.description %></p>
-          <p class="price font-bold">Prix : <%= product.price %>€</p>
+          <h2 class="text-xl font-semibold">Name : <%= product.name %></h2>
+          <p class="text-withe-600 font-bold">Description : <%= product.description.replace(/\n/g, '<br>') %></p>
+          <p class="text-withe-600 font-bold">Category : <%= product.category %></p>
+          <p class="price font-bold">Price : <%= product.price %>€</p>
         </div>
-        <% }); %>
+      <% }); %>
+    </div>
+
+    <!-- Formulaire de création de produit -->
+    <div class="bg-[var(--light-violet)] p-8 rounded-lg shadow-2xl w-full max-w-md border border-[var(--border-color)]">
+      <h2 class="text-3xl font-bold mb-6 text-center text-[var(--accent)]">Create Product</h2>
+      <form action="/product-add" method="POST">
+        <input
+          type="text"
+          id="product_name"
+          name="product_name"
+          class="border border-[var(--border-color)] p-3 w-full rounded-md bg-[var(--dark-violet)] text-[var(--text-color)] focus:ring-2 focus:ring-[var(--accent)] focus:outline-none"
+          required
+          placeholder="Le nom de votre produit"
+        />
+        <br /><br />
+        <input
+          type="text"
+          id="product_description"
+          name="product_description"
+          class="border border-[var(--border-color)] p-3 w-full rounded-md bg-[var(--dark-violet)] text-[var(--text-color)] focus:ring-2 focus:ring-[var(--accent)] focus:outline-none"
+          required
+          placeholder="La description de votre produit"
+        />
+        <br /><br />
+        <input
+          type="text"
+          id="product_category"
+          name="product_category"
+          class="border border-[var(--border-color)] p-3 w-full rounded-md bg-[var(--dark-violet)] text-[var(--text-color)] focus:ring-2 focus:ring-[var(--accent)] focus:outline-none"
+          required
+          placeholder="La catégorie de votre produit"
+        />
+        <br /><br />
+        <input
+          type="number"
+          id="product_price"
+          name="product_price"
+          class="border border-[var(--border-color)] p-3 w-full rounded-md bg-[var(--dark-violet)] text-[var(--text-color)] focus:ring-2 focus:ring-[var(--accent)] focus:outline-none"
+          required
+          step="0.01"
+          min="0"
+          placeholder="Le prix de votre produit"
+        />
+        <br /><br />
+        <select
+          id="product_server"
+          name="product_node"
+          class="border border-[var(--border-color)] p-3 w-full rounded-md bg-[var(--dark-violet)] text-[var(--text-color)] focus:ring-2 focus:ring-[var(--accent)] focus:outline-none"
+          required
+        >
+          <option value="" disabled selected>Choisissez une node</option>
+          <!--Faire plus tard pouvoir selectionné avec par exemple node pterodactyl-->
+          <option value="server1">Node1</option>
+          <option value="server2">Node2</option>
+          <option value="server3">Node3</option>
+        </select>
+        <br /><br />
+        <button
+          type="submit"
+          class="bg-[var(--accent)] text-white p-3 w-full rounded-md hover:bg-[var(--hover-accent)] transition duration-300 focus:ring-2 focus:ring-[var(--accent)] shadow-lg"
+        >
+          Créer le produit
+        </button>
+      </form>
+      <div class="mt-4 text-sm text-gray-400">
+        <p>- Utilisez <code>\n</code> dans la description pour ajouter un retour à la ligne.</p>
       </div>
+    </div>
+  </main>
 
-      <!-- Formulaire de création de produit -->
-      <div
-        class="bg-[var(--light-violet)] p-8 rounded-lg shadow-2xl w-full max-w-md border border-[var(--border-color)]"
-      >
-        <h2 class="text-3xl font-bold mb-6 text-center text-[var(--accent)]">
-          Créer un produit
-        </h2>
-        <form action="/product-add" method="POST">
-          <input
-            type="text"
-            id="product_name"
-            name="product_name"
-            class="border border-[var(--border-color)] p-3 w-full rounded-md bg-[var(--dark-violet)] text-[var(--text-color)] focus:ring-2 focus:ring-[var(--accent)] focus:outline-none"
-            required
-            placeholder="Le nom de votre produit"
-          />
-          <br /><br />
-          <input
-            type="text"
-            id="product_description"
-            name="product_description"
-            class="border border-[var(--border-color)] p-3 w-full rounded-md bg-[var(--dark-violet)] text-[var(--text-color)] focus:ring-2 focus:ring-[var(--accent)] focus:outline-none"
-            required
-            placeholder="La description de votre produit"
-          />
-          <br /><br />
-          <input
-            type="text"
-            id="product_category"
-            name="product_category"
-            class="border border-[var(--border-color)] p-3 w-full rounded-md bg-[var(--dark-violet)] text-[var(--text-color)] focus:ring-2 focus:ring-[var(--accent)] focus:outline-none"
-            required
-            placeholder="La catégorie de votre produit"
-          />
-          <br /><br />
-          <input
-            type="number"
-            id="product_price"
-            name="product_price"
-            class="border border-[var(--border-color)] p-3 w-full rounded-md bg-[var(--dark-violet)] text-[var(--text-color)] focus:ring-2 focus:ring-[var(--accent)] focus:outline-none"
-            required
-            step="0.01"
-            min="0"
-            placeholder="Le prix de votre produit"
-          />
-          <br /><br />
-          <select
-            id="product_server"
-            name="product_node"
-            class="border border-[var(--border-color)] p-3 w-full rounded-md bg-[var(--dark-violet)] text-[var(--text-color)] focus:ring-2 focus:ring-[var(--accent)] focus:outline-none"
-            required
-          >
-            <option value="" disabled selected>Choisissez une node</option>
-            <!--Faire plus tard pouvoir selectionné avec par exemple node pterodactyl-->
-            <option value="server1">Node1</option>
-            <option value="server2">Node2</option>
-            <option value="server3">Node3</option>
-          </select>
-          <br /><br />
-          <button
-            type="submit"
-            class="bg-[var(--accent)] text-white p-3 w-full rounded-md hover:bg-[var(--hover-accent)] transition duration-300 focus:ring-2 focus:ring-[var(--accent)] shadow-lg"
-          >
-            Créer le produit
-          </button>
-        </form>
-      </div>
-    </main>
-
-<%- include('../../components/footer') %>
-
+  <%- include('../../components/footer') %>
+</body>

@@ -5,27 +5,17 @@
   <main class="flex-grow flex flex-col items-center justify-start text-center p-6">
     <h2 class="text-4xl font-bold text-[var(--accent)]">Our products !</h2>
 
-    <!-- Liste des Catégories -->
-    <div class="w-1/2 text-left">
-      <h1 class="text-2xl font-bold mb-4">Catégories</h1>
-      <ul>
-        <% categories.forEach(category => { %>
-          <li><a href="/service/category/<%= category %>"><%= category %></a></li>
-        <% }); %>
-      </ul>
-    </div>
-
-    <!-- Liste des Produits -->
-    <div class="w-1/2 text-left">
-      <h1 class="text-2xl font-bold mb-4">Liste des Produits</h1>
-      <% products.forEach(product => { %>
-        <div class="border-t-4 border-violet-800 p-4">
-          <h2 class="text-xl font-semibold"><%= product.name %></h2>
-          <p class="text-withe-600 font-bold"><%= product.description %></p>
-          <p class="price font-bold">Prix : <%= product.price %>€</p>
-        </div>
+   <!-- Liste des Catégories -->
+   <div class="w-full max-w-2xl">
+    <h1 class="text-2xl font-bold text-white mb-4 text-left">Catégories</h1>
+    <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+      <% categories.forEach(category => { %>
+        <a href="/service/category/<%= category %>" class="block bg-violet-800 text-white p-4 rounded-xl shadow-md text-center transition-transform transform hover:scale-105">
+          <span class="text-lg font-semibold"><%= category %></span>
+        </a>
       <% }); %>
     </div>
+  </div>
   </main>
 
   <%- include('./components/footer') %>
