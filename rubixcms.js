@@ -177,6 +177,29 @@ app.get("/service", async (req, res) => {
   });
 });
 
+
+app.get("/active-service", async (req, res) => {
+  if (!req.session.user) {
+    return res.redirect("/login");
+  }
+
+  const users = await loadUsers();
+  const user = users.find((u) => u.email === req.session.user.email);
+  const email = user.email;
+  const targetUser = users.find((u) => u.email === email);
+
+  if (!user) {
+    return res.send("Utilisateur introuvable.");
+  }
+
+  res.render("active-service", {
+    user,
+    users,
+    userBalance: targetUser.balance,
+    balance: user.balance,  
+  });
+  });
+
 app.get("/service/category/:category", async (req, res) => {
   if (!req.session.user) {
     return res.redirect("/login");
