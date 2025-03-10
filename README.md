@@ -21,8 +21,9 @@ official discord server: [here](https://discord.gg/JWZFuDtNtp)
   - [x] Account creation interface
   - [ ] Admin interface
 - [ ] Create Backend
-  - [ ] Databases service
+  - [x] Databases service
   - [x] Databases user
+    - [ ] User product purchase
   - [ ] RESTful API
   - [ ] Notification system integration
   - [ ] Config page
