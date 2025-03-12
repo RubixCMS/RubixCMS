@@ -7,10 +7,14 @@ Project completed at: ~7%
 
 ## How install RubixCMS
 ### Install dependency
-```npm install```
+```bash 
+npm install
+```
 
 ### Run RubixCMS
-```npm run start```
+```bash
+npm run start
+```
 
 ## Todo List - RubixCMS
 
