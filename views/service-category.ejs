@@ -14,6 +14,7 @@
             <h2 class="text-xl font-semibold mb-2"><%= product.name %></h2>
             <p class="text-gray-300 mb-2"><%- product.description.replace(/\n/g, '<br>') %></p>
             <p class="text-lg font-bold">Prix : <%= product.price %>€</p>
+            <a href="" class="bg-[var(--accent)] text-[var(--text-color)] px-4 py-2 rounded-lg mt-4 inline-block">Commander</a>
           </div>
         <% }); %>
       </div>
