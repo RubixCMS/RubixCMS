@@ -153,6 +153,9 @@ app.get("/home", async (req, res) => {
   });
 });
 
+
+
+
 app.get("/service", async (req, res) => {
   if (!req.session.user) {
     return res.redirect("/login");
@@ -176,6 +179,11 @@ app.get("/service", async (req, res) => {
     res.render("service", { user, products, categories });
   });
 });
+
+
+
+
+
 
 
 app.get("/active-service", async (req, res) => {
@@ -429,14 +437,81 @@ app.post("/user/update-balance", async (req, res) => {
   );
 });
 
-//ajoute category 
+
+
+
+// Début Achat de produit
+app.post("/buy-product", async (req, res) => {
+  // Vérifie si l'utilisateur est connecté
+  if (!req.session.user) {
+    return res.redirect("/login"); // Redirige vers la page de connexion si l'utilisateur n'est pas connecté
+  }
+
+  const productId = req.body.product_id; // Récupère l'ID du produit depuis le formulaire
+
+  // Charge les produits depuis le fichier JSON
+  fs.readFile(PRODUCT_PATH, "utf8", (err, data) => {
+    if (err) {
+      console.error("Erreur de lecture du fichier JSON des produits :", err);
+      return res.send("Erreur de lecture du fichier JSON des produits.");
+    }
+
+    const products = JSON.parse(data);
+    const product = products.find(p => p.id === productId); // Trouve le produit avec l'ID donné
+
+    if (!product) {
+      return res.status(404).send("Produit introuvable.");
+    }
+
+    // Traite l'achat du produit ici (par exemple, en enregistrant l'achat dans la base de données)
+
+    // Une fois l'achat traité, tu peux rediriger l'utilisateur vers une page de confirmation ou la page d'accueil
+    res.send("Achat effectué avec succès !"); // Remplace par une redirection ou une page de confirmation
+  });
+});
+// Fin achat de produit
+
+
+
+
+
+
+
+
+
+//Debut Historique des achats
+app.get("/purchase-history", async (req, res) => {
+  if (!req.session.user) {
+    return res.redirect("/login");
+  }
+
+  const users = await loadUsers();
+  const user = users.find((u) => u.email === req.session.user.email);
+
+  if (!user) {
+    return res.send("Utilisateur non trouvé.");
+  }
+
+  db.all("SELECT * FROM purchases WHERE user_email = ?", [user.email], (err, rows) => {
+    if (err) {
+      console.error("Erreur lors de la récupération des achats :", err);
+      return res.send("Erreur lors de la récupération des achats.");
+    }
+
+    res.render("purchase-history", { purchases: rows });
+  });
+});
+//Fin Historique des achats
+
+
+// Ajout de catégorie
 app.post("/product-add", async (req, res) => {
   const product_name = req.body.product_name;
   const product_description = req.body.product_description;
   const product_price = req.body.product_price;
   const product_category = req.body.product_category;
 
-  if (!product_name || !product_description || !product_price) {
+  if (!product_name || !product_description || !product_price || !product_category) {
     return res.status(400).send("Tous les champs sont requis !");
   }
 
@@ -450,12 +525,17 @@ app.post("/product-add", async (req, res) => {
     }
   }
 
+  // Générer un ID unique pour chaque produit
+  const newProductId = products.length > 0 ? products[products.length - 1].id + 1 : 1;
+
   const newProduct = {
+    id: newProductId,  // Ajout de l'ID unique
     name: product_name,
     description: product_description,
     price: product_price,
     category: product_category,
   };
+
   products.push(newProduct);
 
   try {
@@ -465,6 +545,7 @@ app.post("/product-add", async (req, res) => {
     return res.status(500).send("Erreur lors de l'écriture du fichier JSON");
   }
 });
+
 
 app.listen(PORT, async () => {
   console.log(
@@ -484,6 +565,18 @@ app.listen(PORT, async () => {
     );
   });
 
+  await new Promise((resolve, reject) => {
+    db.run(
+      "CREATE TABLE IF NOT EXISTS purchases (id INTEGER PRIMARY KEY, user_email TEXT, product_name TEXT, price REAL, purchase_date TEXT)",
+      (err) => {
+        if (err) {
+          reject("Erreur lors de la création de la table des achats : " + err);
+        } else {
+          resolve();
+        }
+      }
+    );
+  });
   const users = await loadUsers();
   const adminUserExists = users.some(
     (user) => user.email === "admin@rubixcms.com"
@@ -519,4 +612,3 @@ app.listen(PORT, async () => {
     );
   }
 });
-

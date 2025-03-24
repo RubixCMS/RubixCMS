@@ -21,6 +21,8 @@ npm run start
 ### Basic features
 - [x] Create an account system
 - [ ] Create Frontend (Customer Dashboard, Admin Dashboard, + CSS)
+- [ ] Make the code of “rubixCMS.js” more readable with hints
+- [ ] Translate entire code into English
   - [x] User home page
   - [ ] Service management interface
   - [ ] User management interface
