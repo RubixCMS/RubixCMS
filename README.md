@@ -3,7 +3,7 @@ A free CMS project created by two French people
 official discord server: [here](https://discord.gg/JWZFuDtNtp)
 
 
-Project completed at: ~7%
+Project completed at: ~15%
 
 ## How install RubixCMS
 ### Install dependency
@@ -30,7 +30,7 @@ npm run start
 - [ ] Create Backend
   - [x] Databases service
   - [x] Databases user
-    - [ ] User product purchase
+    - [x] User product purchase
   - [ ] RESTful API
   - [ ] Notification system integration
   - [ ] Config page
