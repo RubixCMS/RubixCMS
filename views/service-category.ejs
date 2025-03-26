@@ -15,13 +15,13 @@
             <p class="text-gray-300 mb-2"><%- product.description.replace(/\n/g, '<br>') %></p>
             <p class="text-lg font-bold">Prix : <%= product.price %>€</p>
             
-<!-- Formulaire d'achat -->
-<form action="/buy-product" method="POST">
-  <input type="hidden" name="product_id" value="<%= product.id %>" />
-  <button type="submit" class="bg-[var(--accent)] text-[var(--text-color)] px-4 py-2 rounded-lg mt-4 inline-block">
-    Commander
-  </button>
-</form>
+            <!-- Formulaire d'achat -->
+            <form action="/buy-product/<%= product.id %>" method="POST">
+              <input type="hidden" name="product_id" value="<%= product.id %>" />
+              <button type="submit" class="bg-[var(--accent)] text-[var(--text-color)] px-4 py-2 rounded-lg mt-4 inline-block">
+                Commander
+              </button>
+            </form>
           </div>
         <% }); %>
       </div>

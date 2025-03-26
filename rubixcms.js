@@ -193,20 +193,31 @@ app.get("/active-service", async (req, res) => {
 
   const users = await loadUsers();
   const user = users.find((u) => u.email === req.session.user.email);
-  const email = user.email;
-  const targetUser = users.find((u) => u.email === email);
 
   if (!user) {
     return res.send("Utilisateur introuvable.");
   }
 
-  res.render("active-service", {
-    user,
-    users,
-    userBalance: targetUser.balance,
-    balance: user.balance,  
+  // Charger les services actifs
+  fs.readFile(PRODUCT_PATH, "utf8", (err, data) => {
+    if (err) {
+      console.error("Erreur de lecture du fichier JSON des produits :", err);
+      return res.send("Erreur de lecture du fichier JSON des produits.");
+    }
+
+    const products = JSON.parse(data);
+    const activeServices = products.filter(product => product.isActive);
+    const activeServiceCount = activeServices.length;
+
+    res.render("active-service", {
+      user,
+      users,
+      userBalance: user.balance,
+      balance: user.balance,
+      activeServiceCount
+    });
   });
-  });
+});
 
 app.get("/service/category/:category", async (req, res) => {
   if (!req.session.user) {
@@ -438,18 +449,21 @@ app.post("/user/update-balance", async (req, res) => {
 });
 
 
-
-
 // Début Achat de produit
-app.post("/buy-product", async (req, res) => {
-  // Vérifie si l'utilisateur est connecté
+app.post("/buy-product/:id", async (req, res) => {
   if (!req.session.user) {
-    return res.redirect("/login"); // Redirige vers la page de connexion si l'utilisateur n'est pas connecté
+    return res.redirect("/login");
   }
 
-  const productId = req.body.product_id; // Récupère l'ID du produit depuis le formulaire
+  const users = await loadUsers();
+  const user = users.find((u) => u.email === req.session.user.email);
 
-  // Charge les produits depuis le fichier JSON
+  if (!user) {
+    return res.send("Utilisateur non trouvé.");
+  }
+
+  const productId = Number(req.params.id);
+
   fs.readFile(PRODUCT_PATH, "utf8", (err, data) => {
     if (err) {
       console.error("Erreur de lecture du fichier JSON des produits :", err);
@@ -457,20 +471,44 @@ app.post("/buy-product", async (req, res) => {
     }
 
     const products = JSON.parse(data);
-    const product = products.find(p => p.id === productId); // Trouve le produit avec l'ID donné
+    const product = products.find(p => p.id === productId);
 
     if (!product) {
       return res.status(404).send("Produit introuvable.");
     }
 
-    // Traite l'achat du produit ici (par exemple, en enregistrant l'achat dans la base de données)
+    if (user.balance < product.price) {
+      return res.send("Solde insuffisant pour acheter ce produit.");
+    }
 
-    // Une fois l'achat traité, tu peux rediriger l'utilisateur vers une page de confirmation ou la page d'accueil
-    res.send("Achat effectué avec succès !"); // Remplace par une redirection ou une page de confirmation
+    const newBalance = user.balance - product.price;
+
+    db.run(
+      "UPDATE users SET balance = ? WHERE email = ?",
+      [newBalance, user.email],
+      (err) => {
+        if (err) {
+          console.error("Erreur lors de la mise à jour du solde :", err);
+          return res.send("Erreur lors de la mise à jour du solde.");
+        }
+
+        db.run(
+          "INSERT INTO purchases (user_email, product_name, price, purchase_date) VALUES (?, ?, ?, ?)",
+          [user.email, product.name, product.price, new Date().toISOString()],
+          (err) => {
+            if (err) {
+              console.error("Erreur lors de l'enregistrement de l'achat :", err);
+              return res.send("Erreur lors de l'enregistrement de l'achat.");
+            }
+
+            res.redirect("/home");
+          }
+        );
+      }
+    );
   });
 });
 // Fin achat de produit
-
 
 
 
