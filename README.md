@@ -1,6 +1,6 @@
 # RubixCMS
 A free CMS project created by two French people
-official discord server: [here](https://discord.gg/JWZFuDtNtp)
+official discord server: [here](https://discord.gg/ty92ffCYUC)
 
 
 Project completed at: ~15%
